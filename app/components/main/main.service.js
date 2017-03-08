@@ -3,15 +3,15 @@
         var svc = {};
 
         svc.getForecast = function () {
-            var config = apiResourceSvc.resource().forecast.read;            
+            var config = apiResourceSvc.resource().forecast.read;
             // config.data = {};
-            
+
             return apiResourceSvc
                 .makeRequest(config)
                 .then(
                 function (response) {
                     var r = apiResourceSvc.promiseSuccessHandler(response);
-                    console.log(r);
+                    
                     // Check for something wacky happening - we either didn't get a user record back, or the user doesn't have an id
                     /*
                     if (!response.data.d || !response.data.d.BodyCopy) {
@@ -33,7 +33,7 @@
                     */
                     return r;
                 },
-                function (response) {                    
+                function (response) {
                     // Get response (error) object
                     var r = apiResourceSvc.promiseErrorHandler(response);
                     return r;

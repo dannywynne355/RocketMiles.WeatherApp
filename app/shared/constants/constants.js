@@ -4,14 +4,9 @@
     })
     .constant('appEnvironment', {
         production: {
-            name: 'PRODUCTION',
-            api: {
-                urlRoot: 'https://www.ncdc.noaa.gov/cdo-web/api/v2/',
-                user: 'dannywynne@the355group.com',                
-                token: 'iodYvwBfNbUFuoIWQYVeQwDxwAVeaYao'
-            },
+            name: 'production',
             hosts: [
                 ''
             ]
         }
-    })
+    });

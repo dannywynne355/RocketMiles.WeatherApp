@@ -21,6 +21,7 @@
 ;
 
 /* Initialize */
+angular.module('WeatherApp.config', []);
 angular.module('WeatherApp.services', []);
 angular.module('WeatherApp.controllers', []);
     

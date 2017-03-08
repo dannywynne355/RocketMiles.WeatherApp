@@ -1,9 +1,9 @@
 ﻿angular.module('WeatherApp.services')
-    .factory('apiResourceSvc', function ($http, apiEndpoints, environmentService) {
+    .factory('apiResourceSvc', function ($http, apiSettings, environmentService) {
         var svc = {};
 
         svc.resource = function () {
-            return apiEndpoints;
+            return apiSettings.endpoints;
         }
 
         svc.environment = environmentService.getEnvironment();
@@ -13,14 +13,14 @@
             if (url.indexOf('http') > -1) {
                 return url;
             }
-          
-            return this.environment.api.urlRoot + url;
+            
+            return apiSettings.config[this.environment.name].urlRoot + url;
         };
 
         /* Adds token to header per Api directions - https://www.ncdc.noaa.gov/cdo-web/webservices/v2#gettingStarted */
         svc.setHeaders = function () {
             return {
-                token: svc.environment.api.token
+                token: apiSettings.config[this.environment.name].credentials.token
             }
         };
 
