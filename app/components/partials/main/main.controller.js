@@ -4,7 +4,7 @@
         
         var modalInstance = $modal.open({
                 animation: $scope.animationsEnabled,
-                templateUrl: 'myModalContent.html',
+                templateUrl: '/app/components/modals/current-location/current-location.view.html',
                 controller: 'ModalInstanceCtrl',
                 scope: $scope
             });
@@ -63,38 +63,3 @@
             */
         }
     ]);
-
-angular.module('WeatherApp.controllers').controller('ModalInstanceCtrl', function ($scope, $modalInstance) {
-    // var $ctrl = this;
-    /*
-    $ctrl.items = items;
-    $ctrl.selected = {
-        item: $ctrl.items[0]
-    };
-    */
-    /*
-    $ctrl.ok = function () {
-        console.log($modalInstance);
-        // $modalInstance.close($ctrl.selected.item);
-        $modalInstance.dismiss('ok');
-    };
-
-    $ctrl.cancel = function () {
-        console.log('cancel');
-        $modalInstance.dismiss('cancel');
-        //$ctrl.dismiss({ $value: 'cancel' });
-    };
-
-    
-    */    
-    console.log($scope);
-    $scope.ok = function () {
-        // console.log(prefix + '$close returned ' + $scope.$close('ok'));
-        $scope.$close('ok')
-    };
-
-    $scope.cancel = function () {
-        // console.log(prefix + '$dismiss returned ' + $scope.$dismiss('cancel'));
-        $scope.$dismiss('cancel')
-    };
-});
