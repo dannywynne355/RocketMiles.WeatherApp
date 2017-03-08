@@ -1,4 +1,7 @@
-﻿angular.module('WeatherApp.services')
+﻿/*
+    Wrapper for storing app data in a cookie
+*/
+angular.module('WeatherApp.services')
     .service('appCookieSvc', function ($cookieStore, appCookie) {
         this.create = function (sessionId, user) {
             this.id = sessionId;

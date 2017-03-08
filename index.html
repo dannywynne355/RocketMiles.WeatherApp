@@ -37,19 +37,23 @@
     <script type="text/javascript" src="assets/lib/angular/angular-sanitize.min.js"></script>
     <script type="text/javascript" src="assets/lib/angular/cookies.js"></script>
     <script type="application/javascript" src="assets/lib/angular-ui-bootstrap/ui-bootstrap-tpls-0.11.0.min.js"></script>    
-    <!-- App -->    
-    <script type="text/javascript" src="app/index.js"></script>   
-    <script type="text/javascript" src="app/app.module.js"></script>   
-    <script type="text/javascript" src="app/app.route.js"></script>           
-    <script type="text/javascript" src="app/shared/constants/constants.js"></script>   
-    <script type="text/javascript" src="app/shared/constants/api.js"></script>   
-    <script type="text/javascript" src="app/shared/services/environmentService.js"></script>   
-    <script type="text/javascript" src="app/shared/services/apiResourceService.js"></script>   
-    <script type="text/javascript" src="app/shared/services/appCookieService.js"></script>   
-    <script type="text/javascript" src="app/components/main/main.service.js"></script>   
-    <script type="text/javascript" src="app/components/main/main.controller.js"></script>   
+    <!-- App -->
+    <script type="text/javascript" src="app/index.js"></script>
+    <script type="text/javascript" src="app/app.module.js"></script>
+    <script type="text/javascript" src="app/app.route.js"></script>
+    <script type="text/javascript" src="app/shared/constants/constants.js"></script>
+    <script type="text/javascript" src="app/shared/constants/api.js"></script>
+    <script type="text/javascript" src="app/shared/services/environmentService.js"></script>
+    <script type="text/javascript" src="app/shared/services/apiBaseService.js"></script>
+    <script type="text/javascript" src="app/shared/services/apiResourceService.js"></script>
+    <script type="text/javascript" src="app/shared/services/appCookieService.js"></script>
+    <script type="text/javascript" src="app/shared/services/googleMapsGeocodingApiService.js"></script>
+    <script type="text/javascript" src="app/components/main/main.service.js"></script>
+    <script type="text/javascript" src="app/components/main/main.controller.js"></script>
     <script type="text/javascript">
-            app.initialize();
-    </script>
+        app.initialize();
+    </script>  
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANWoMFh-EzYRUEzrbY1aRvVmO9_PelzKU"
+            async defer></script>  
 </body>
 </html>
