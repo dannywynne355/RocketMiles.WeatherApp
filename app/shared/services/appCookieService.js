@@ -3,11 +3,10 @@
 */
 angular.module('WeatherApp.services')
     .service('appCookieSvc', function ($cookieStore, appCookie) {
-        this.create = function (sessionId, user) {
+        this.create = function (sessionId, user, locations) {
             this.id = sessionId;
             this.user = user;
-            //  TODO: Add previous cities
-                        
+            this.locations = locations;
         };
 
         this.save = function () {
@@ -15,7 +14,8 @@ angular.module('WeatherApp.services')
                 appCookie.name,
                 JSON.stringify(
                     {
-                        user: this.user
+                        user: this.user,
+                        locations: this.locations
                     }
                 )
             );
@@ -24,7 +24,7 @@ angular.module('WeatherApp.services')
         this.destroy = function () {
             this.id = null;
             this.user = null;
-            
+            this.locations = null;
             $cookieStore.remove(appCookie.name);
         };
 
@@ -39,7 +39,7 @@ angular.module('WeatherApp.services')
                     var cookieData = JSON.parse(cookieSession);
                     // NOTE: this blows away data
                     var sessionId = this.makeSessionId(cookieData.user);
-                    this.create(sessionId, cookieData.user);
+                    this.create(sessionId, cookieData.user, cookieData.locations);
                     
                     // Need to save the cookie state for browser reloads
                     this.save();

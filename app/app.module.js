@@ -1,4 +1,4 @@
-﻿var weatherApp = angular.module('WeatherApp', ['ngRoute', 'ngCookies', 'WeatherApp.config', 'WeatherApp.services', 'WeatherApp.controllers', 'WeatherApp.routes'])
+﻿var weatherApp = angular.module('WeatherApp', ['ngRoute', 'ngCookies', 'WeatherApp.config', 'WeatherApp.services', 'WeatherApp.controllers', 'WeatherApp.routes', 'ui.bootstrap'])
     .config(['$httpProvider', function ($httpProvider) {
         //$httpProvider.defaults.withCredentials = true; MOVED TO constants, API definition
         $httpProvider.defaults.useXDomain = true;

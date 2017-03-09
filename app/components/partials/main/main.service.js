@@ -43,20 +43,42 @@
 
         return svc;
     })
-    .factory('mainSvc', function ($http, apiResourceSvc, appCookieSvc) {
+    .factory('mainSvc', function ($http, apiRequestSvc, apiResourceSvc, appCookieSvc) {
         var svc = {};
 
         svc.getForecast = function () {
-            var api = new apiResourceSvc();            
+            //var api = new apiResourceSvc();            
+            //var config = api.resource().endpoints.forecast.read;
+            // config.data = {};            
+            var api = new apiResourceSvc();
             var config = api.resource().endpoints.forecast.read;
-            // config.data = {};
 
+            var callback = function () {                
+                return api.makeRequest(config);
+            }
+            //.getOrAdd(api.makeRequest(config))
+
+            return apiRequestSvc
+                .getOrAdd(config.url, callback)
+                .then(
+                    function (response) {                        
+                        return api.promiseSuccessHandler(response);
+                        return r;
+                    },
+                    function (response) {
+                        // Get response (error) object                        
+                        return api.promiseErrorHandler(response);                    
+                    }
+                );
+            
+
+            /*
             return api
                 .makeRequest(config)
                 .then(
                 function (response) {
                     var r = api.promiseSuccessHandler(response);
-                    
+*/                    
                     // Check for something wacky happening - we either didn't get a user record back, or the user doesn't have an id
                     /*
                     if (!response.data.d || !response.data.d.BodyCopy) {
@@ -76,6 +98,7 @@
                         r.data = terms;
                     }
                     */
+/*
                     return r;
                 },
                 function (response) {
@@ -84,6 +107,7 @@
                     return r;
                 }
             );
+*/
         };
 
         return svc;
