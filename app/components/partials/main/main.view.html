@@ -9,6 +9,25 @@
             
         </div> <!-- .col-md-12 -->
     </div> <!-- .row -->
+    <div ng-show="weatherData.Locale = null && weatherData.CurrentWeather == null" class="row">
+        <div class="col-xs-12">
+            <div class="alert alert-danger">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-8">
+                        <p>
+                            Well this is embarassing.  For me, obviously.  You have found your way to the fail-safe
+                            error check.  There's absolutely no data to display.  Perhaps try another location in the
+                            search bar above or from the previous locations dropdown in the footer.  For your troubles,
+                            here are some puppies:
+                        </p>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 text-center">
+                        <img src="/assets/img/puppies.jpg" border="0" width="200" height="143" />
+                    </div>                        
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-8 col-xs-12">
             <div class="row">
@@ -76,7 +95,12 @@
                             <h4>Next 12 hours</h4>
                         </div>
                     </div>
-                    <div class="row">
+                    <div ng-show="weatherData.ImmediateForecast == null" class="row">
+                        <div class="col-xs-12">
+                            <div class="alert alert-warning text-center">The 12 hour forecast is currently unavailable.</div>
+                        </div>
+                    </div>
+                    <div ng-show="weatherData.ImmediateForecast != null" class="row">
                         <div class="col-xs-3 next-12-item">
                             <div class="panel panel-default">
                                 <div class="panel-body">
@@ -152,69 +176,76 @@
         <div class="col-md-4 col-xs-12">
             <div class="row">
                 <div class="col-xs-12">
-                    <h3>Forecast</h3>
+                    <h4>Forecast</h4>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-default forecast-item">
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-xs-5">Fri<br />3/10</div>
-                                <div class="col-xs-4"><span class="forecast-temperature">29 | 16 F</span></div>
-                                <div class="col-xs-3"><img class="forecast-icon" src="http://openweathermap.org/img/w/10d.png" border="0" /></div>
+            <div ng-show="weatherData.Forecast == null" class="row">
+                <div class="col-xs-12">
+                    <div class="alert alert-warning text-center">The forecast is currently unavailable.</div>
+                </div>
+            </div>
+            <div ng-show="weatherData.Forecast != null">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default forecast-item">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-5">Fri<br />3/10</div>
+                                    <div class="col-xs-4"><span class="forecast-temperature">29 | 16 F</span></div>
+                                    <div class="col-xs-3"><img class="forecast-icon" src="http://openweathermap.org/img/w/10d.png" border="0" /></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-default forecast-item">
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-xs-5">Fri<br />3/10</div>
-                                <div class="col-xs-4"><span class="forecast-temperature">29 | 16 F</span></div>
-                                <div class="col-xs-3"><img class="forecast-icon" src="http://openweathermap.org/img/w/10d.png" border="0" /></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default forecast-item">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-5">Fri<br />3/10</div>
+                                    <div class="col-xs-4"><span class="forecast-temperature">29 | 16 F</span></div>
+                                    <div class="col-xs-3"><img class="forecast-icon" src="http://openweathermap.org/img/w/10d.png" border="0" /></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-default forecast-item">
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-xs-5">Fri<br />3/10</div>
-                                <div class="col-xs-4"><span class="forecast-temperature">29 | 16 F</span></div>
-                                <div class="col-xs-3"><img class="forecast-icon" src="http://openweathermap.org/img/w/10d.png" border="0" /></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default forecast-item">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-5">Fri<br />3/10</div>
+                                    <div class="col-xs-4"><span class="forecast-temperature">29 | 16 F</span></div>
+                                    <div class="col-xs-3"><img class="forecast-icon" src="http://openweathermap.org/img/w/10d.png" border="0" /></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-default forecast-item">
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-xs-5">Fri<br />3/10</div>
-                                <div class="col-xs-4"><span class="forecast-temperature">29 | 16 F</span></div>
-                                <div class="col-xs-3"><img class="forecast-icon" src="http://openweathermap.org/img/w/10d.png" border="0" /></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default forecast-item">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-5">Fri<br />3/10</div>
+                                    <div class="col-xs-4"><span class="forecast-temperature">29 | 16 F</span></div>
+                                    <div class="col-xs-3"><img class="forecast-icon" src="http://openweathermap.org/img/w/10d.png" border="0" /></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-default forecast-item">
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-xs-5">Fri<br />3/10</div>
-                                <div class="col-xs-4"><span class="forecast-temperature">29 | 16 F</span></div>
-                                <div class="col-xs-3"><img class="forecast-icon" src="http://openweathermap.org/img/w/10d.png" border="0" /></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default forecast-item">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-5">Fri<br />3/10</div>
+                                    <div class="col-xs-4"><span class="forecast-temperature">29 | 16 F</span></div>
+                                    <div class="col-xs-3"><img class="forecast-icon" src="http://openweathermap.org/img/w/10d.png" border="0" /></div>
+                                </div>
                             </div>
                         </div>
                     </div>

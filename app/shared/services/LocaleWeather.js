@@ -10,7 +10,9 @@ LocaleWeather.$inject = ['Locale'];
 function LocaleWeather(Locale) {    
     var svc = {
         Locale: null,
-        CurrentWeather: null
+        CurrentWeather: null,
+        ImmediateForecast: null,
+        Forecast: null
     };
 
     
