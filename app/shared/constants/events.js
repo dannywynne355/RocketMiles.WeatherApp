@@ -1,8 +1,8 @@
 ﻿angular.module('WeatherApp.config')
     .constant('broadcastEvents', {
-        currentLocation: {
+        setLocation: {
             useDefaultLocaleNotification: 'use-default-locale-notification',
-            useCurrentGeolocationNotification: 'use-current-geolocation-notification',
+            updateNotification: 'update-notification',            
             refreshNotification: 'refresh-data-notification'
         }
     })

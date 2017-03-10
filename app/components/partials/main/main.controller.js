@@ -3,15 +3,16 @@
 WeatherAppControllers.controller('MainController', WeatherAppMain);
 
 function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, geolocationFinder, broadcastEvents, mainSvc, weatherUnits) {    
-    $scope.$on(broadcastEvents.currentLocation.useDefaultLocaleNotification, function (event, args) {
+    $scope.$on(broadcastEvents.setLocation.useDefaultLocaleNotification, function (event, args) {
+        console.log('Use default');
+
         // Use the default location            
         var getLocale = function () {
             var locale = new Locale(defaultLocale);
             locale.isDefault = true;
             return locale;
         };
-        $scope.selectedLocale = getLocale();
-        console.log($scope.selectedLocale);
+        $scope.selectedLocale = getLocale();        
 
         // If a callback exists, fire it.  From intro screen, this will close current location modal.
         if (args && args.callback) {
@@ -19,10 +20,12 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, geo
         }
     });
 
-    $scope.$on(broadcastEvents.currentLocation.useCurrentGeolocationNotification, function (event, args) {        
+    $scope.$on(broadcastEvents.setLocation.updateNotification, function (event, args) {
+        console.log('update locale');
+
         // Check for unexpected case where no locale was provided            
         if (!args.locale) {
-            $scope.$broadcast(broadcastEvents.currentLocation.useDefaultLocaleNotification, { callback: args.callback });
+            $scope.$broadcast(broadcastEvents.setLocation.useDefaultLocaleNotification, { callback: args.callback });
         }
 
         $scope.selectedLocale = args.locale;
@@ -33,7 +36,7 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, geo
         }
     });
 
-    $scope.$on(broadcastEvents.currentLocation.refreshNotification, function (event, args) {
+    $scope.$on(broadcastEvents.setLocation.refreshNotification, function (event, args) {
         console.log('Refresh data');
 
         // $scope.selectedLocale = args.locale;
@@ -48,6 +51,11 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, geo
 
     $scope.$watch('selectedLocale', function () {
         console.log('hey, myVar has changed!');
+
+        var weatherData = new LocaleWeather();        
+        weatherData.Locale = new Locale(defaultLocale);
+
+        $scope.weatherData = weatherData;
     });
 
     /*
@@ -88,12 +96,12 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, geo
     $scope.lastLogEntry = {}; // Do this to give it an initial value in case something wonky happens with fetching data
     // getMostRecentEntry();
 
-    var getCurrentLocale = function () {
+    var getGeoCurrentLocale = function () {
         geolocationFinder.then(
             function (response) {
                 var locale = response;
                 locale.localeType = 'geolocation';
-                $scope.currentLocale = locale;
+                $scope.currentGeoLocale = locale;
             },
             function (response) {
 
@@ -101,7 +109,7 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, geo
         );
     };
 
-    getCurrentLocale();
+    getGeoCurrentLocale();
 
     var getPreviousLocale = function () {
         var localeItems = [];
@@ -120,9 +128,17 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, geo
     $scope.setUnits = function (unit) {
         // Update our object with the units
         weatherUnits.set(unit);
-        // Request that the data if refreshed
-        $scope.$broadcast(broadcastEvents.currentLocation.refreshNotification);
 
+        console.log("Need to add definition for known location");
+
+        // Request that the data if refreshed
+        $scope.$broadcast(broadcastEvents.setLocation.refreshNotification);
+
+    };
+
+    /* Handles selecting an existing location */
+    $scope.setKnownLocale = function (locale) {
+        $scope.$broadcast(broadcastEvents.setLocation.updateNotification, { locale: locale });
     };
 }
 WeatherAppMain.$inject = ['$scope', '$uibModal', 'Locale', 'defaultLocale', 'appCookie', 'geolocationFinder', 'broadcastEvents', 'mainSvc', 'weatherUnits'];

@@ -25,7 +25,7 @@
                                                     <div class="panel-body">
                                                         <div class="row">
                                                             <div class="col-xs-12 text-center">
-                                                                <h3>[Bolingbrook]</h3>
+                                                                <h3><span>{{ weatherData.Locale.city }}</span><span ng-hide="!weatherData.Locale.zip"> - {{ weatherData.Locale.zip }}</span></h3>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -221,14 +221,7 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-<pre>
-{{ lastLogEntry }}
-</pre>
-        </div> <!-- .col-md-12 -->
-    </div> <!-- .row -->
+    </div>    
     <div class="row">
         <div class="col-md-12">
             <div class="well well-sm">
@@ -239,9 +232,9 @@
                                 View Locations <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">
-                                <li role="menuitem"><a href="#"><i ng-show="currentLocale.localeType == 'geolocation'" class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;{{ currentLocale.city }}, {{ currentLocale.region }} ({{ currentLocale.zip }})</a></li>
+                                <li role="menuitem"><a ng-click="setKnownLocale(currentGeoLocale)"><i ng-show="currentGeoLocale.localeType == 'geolocation'" class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;{{ currentGeoLocale.city }}, {{ currentGeoLocale.region }} ({{ currentGeoLocale.zip }})</a></li>
                                 <li class="divider"></li>
-                                <li role="menuitem" ng-repeat="location in locations"><a href="#">{{ location.city }}, {{ location.region }} ({{ location.zip }})</a></li>
+                                <li role="menuitem" ng-repeat="location in locations"><a ng-click="setKnownLocale(location)">{{ location.city }}, {{ location.region }} ({{ location.zip }})</a></li>
                             </ul>
                         </div>
                     </div> <!-- .col-xs-6 -->

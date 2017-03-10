@@ -37,7 +37,7 @@ angular.module('WeatherApp.controllers')
                     };                    
 
                     // Could not get current location, so just use the default location
-                    $rootScope.$broadcast(broadcastEvents.currentLocation.useCurrentGeolocationNotification, { locale: responseLocale, callback: callback });
+                    $rootScope.$broadcast(broadcastEvents.setLocation.updateNotification, { locale: responseLocale, callback: callback });
                 } else {
                     /* Trapped Error */
 
@@ -48,7 +48,7 @@ angular.module('WeatherApp.controllers')
                     };
 
                     // Could not get current location, so just use the default location
-                    $rootScope.$broadcast(broadcastEvents.currentLocation.useDefaultLocaleNotification, { callback: callback });
+                    $rootScope.$broadcast(broadcastEvents.setLocation.useDefaultLocaleNotification, { callback: callback });
                 }
             },
             function (response) {
