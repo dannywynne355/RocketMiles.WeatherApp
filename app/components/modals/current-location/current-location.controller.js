@@ -1,6 +1,6 @@
 ﻿/// <reference path="current-location.controller.js" />
 angular.module('WeatherApp.controllers')
-    .controller('ModalInstanceCtrl', ['$rootScope', '$scope', '$uibModalInstance', 'geolocationFinder', 'defaultLocale', 'broadcastEvents', function ($rootScope, $scope, $uibModalInstance, geolocationFinder, defaultLocale, broadcastEvents) {
+    .controller('ModalInstanceCtrl', ['$rootScope', '$scope', '$uibModalInstance', 'geolocationFinder', 'broadcastEvents', function ($rootScope, $scope, $uibModalInstance, geolocationFinder, broadcastEvents) {
     // var $ctrl = this;
     /*
     $ctrl.items = items;

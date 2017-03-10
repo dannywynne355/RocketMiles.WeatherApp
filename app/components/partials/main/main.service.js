@@ -1,5 +1,5 @@
 ﻿angular.module('WeatherApp.services')    
-    .factory('mainSvc', ['$http', 'apiRequestSvc', 'apiResourceSvc', 'openWeatherMapApiSvc', 'appCookieSvc', function ($http, apiRequestSvc, apiResourceSvc, openWeatherMapApiSvc, appCookieSvc) {
+    .factory('mainSvc', ['$http', 'apiRequestSvc', 'apiResourceSvc', 'openWeatherMapApiSvc', 'appCookie', function ($http, apiRequestSvc, apiResourceSvc, openWeatherMapApiSvc, appCookieSvc) {
         var svc = {};
 
         svc.getNewApi = function () {

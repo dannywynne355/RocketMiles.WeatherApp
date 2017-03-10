@@ -3,7 +3,9 @@
 WeatherAppControllers.controller('SearchCtrl', LocationSearch);
 
 function LocationSearch($scope) {
+    
     $scope.search = function () {
+        alert('sssdfsd');
         /*
             Error checking: if numbers, make sure it is 5
 

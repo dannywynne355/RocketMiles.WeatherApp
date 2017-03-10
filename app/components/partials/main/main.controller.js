@@ -2,7 +2,7 @@
 
 WeatherAppControllers.controller('MainController', WeatherAppMain);
 
-function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookieSvc, geolocationFinder, broadcastEvents, mainSvc) {
+function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, geolocationFinder, broadcastEvents, mainSvc, weatherUnits) {    
     $scope.$on(broadcastEvents.currentLocation.useDefaultLocaleNotification, function (event, args) {
         // Use the default location            
         var getLocale = function () {
@@ -33,13 +33,18 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookieSvc, 
         }
     });
     
+    $scope.$watch('selectedLocale', function () {
+        console.log('hey, myVar has changed!');
+    });
+
+    /*
     var modalInstance = $uibModal.open({
         animation: $scope.animationsEnabled,
         templateUrl: '/app/components/modals/current-location/current-location.view.html',
         controller: 'ModalInstanceCtrl',
         scope: $scope
     });
-    
+    */
 
     var getMostRecentEntry = function () {
         mainSvc.getNewApi().then(
@@ -88,46 +93,22 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookieSvc, 
     var getPreviousLocale = function () {
         var localeItems = [];
 
-        appCookieSvc.load();
-        if (appCookieSvc.locations != undefined) {
-            angular.foreach(appCookieSvc.locations, function (locale) {
-                localeItems.push(locale);
-            });
+        appCookie.load();
+        if (appCookie.locations != undefined) {
+            angular.forEach(appCookie.locations, function (locale, key) {
+                this.push(locale);
+            }, localeItems);
         }
     };
 
     getPreviousLocale();
 
-    /*
-zipCodeLookupSvc.getExtent()
-            .then(
-            function (response) {
-                if (!response.error) {                            
-                    console.log(response.data.results.length);
-                    if (response.data.results.length > 0) {
-                        var match = response.data.results[0];
-                        var extent = {
-                            sw: match.geometry.bounds.southwest,
-                            ne: match.geometry.bounds.northeast                                    
-                        }
-                        var extentArg = new google.maps.LatLngBounds(
-                            new google.maps.LatLng(extent.sw.lat, extent.sw.lng),
-                            new google.maps.LatLng(extent.ne.lat, extent.ne.lng)
-                            ).toUrlValue();
-                        console.log(extentArg);
-                    } else {
-                        // No results found for zip
-                    }                            
-                    $scope.lastLogEntry = response.data;
-                } else {
-                    $scope.lastLogEntry = 'Error: ' + response.error.message;
-                }
-            },
-            function (response) {
-                // Untrapped error case                        
-            }
-        );
-    */
+    /* Handles changes in temperature units */
+    $scope.setUnits = function (unit) {
+        // Update our object with the units
+        weatherUnits.set(unit);
+        // Request that the data if refreshed
 
+    };
 }
-WeatherAppMain.$inject = ['$scope', '$uibModal', 'Locale', 'defaultLocale', 'appCookieSvc', 'geolocationFinder', 'broadcastEvents', 'mainSvc'];
+WeatherAppMain.$inject = ['$scope', '$uibModal', 'Locale', 'defaultLocale', 'appCookie', 'geolocationFinder', 'broadcastEvents', 'mainSvc', 'weatherUnits'];

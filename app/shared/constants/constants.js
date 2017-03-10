@@ -1,10 +1,4 @@
-﻿angular.module('WeatherApp.config')
-    .constant('appCookie', {
-        name: 'WeatherApp'
-    })
-    .constant('appCache', {
-        name: 'WeatherApp'
-    })
+﻿angular.module('WeatherApp.config')    
     .constant('appEnvironment', {
         production: {
             name: 'production',

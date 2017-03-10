@@ -251,9 +251,9 @@
                                 Temperature Units <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">
-                                <li role="menuitem"><a href="#">Fahrenheit</a></li>
-                                <li role="menuitem"><a href="#">Celsius</a></li>
-                                <li role="menuitem"><a href="#">Kelvin</a></li>
+                                <li role="menuitem"><a ng-click="setUnits('imperial')">Fahrenheit</a></li>
+                                <li role="menuitem"><a ng-click="setUnits('metric')">Celsius</a></li>
+                                <li role="menuitem"><a ng-click="setUnits('standard')">Kelvin</a></li>
                             </ul>
                         </div>
                     </div> <!-- .col-xs-6 -->

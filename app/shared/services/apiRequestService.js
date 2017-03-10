@@ -1,7 +1,4 @@
-﻿angular.module('WeatherApp.services')
-    .factory('apiCache', ['$cacheFactory', 'appCache', function ($cacheFactory, appCache) {
-        return $cacheFactory(appCache.name);
-    }])
+﻿angular.module('WeatherApp.services')    
     .factory('apiRequestSvc', function ($q, apiCache) {
         var svc = {};                        
 

@@ -1,7 +1,7 @@
 ﻿/* Create app */
 var weatherApp = angular.module('WeatherApp', ['ngRoute', 'ngCookies', 'ngAnimate', 'WeatherApp.config', 'WeatherApp.services', 'WeatherApp.controllers', 'WeatherApp.routes', 'ui.bootstrap'])
     .config(appConfig)    
-    .run(appRun)    
+    .run(appRun)
 ;
 
 /* Tasks to execute on injector registration/configuration phase */
