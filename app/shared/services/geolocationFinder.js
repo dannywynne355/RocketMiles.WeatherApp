@@ -1,5 +1,6 @@
 ﻿/*
     Fetches the current geolocation info via the api at http://ip-api.com
+    as a promise
 */
 angular.module('WeatherApp.services')
     .factory('geolocationFinder', geolocationFinder);
