@@ -2,10 +2,10 @@
     Generic service to handle communicatie with the NOAA Api
 */
 angular.module('WeatherApp.services')
-    .factory('openWeatherMapApiSvc', ['openWeatherMapApiSettings', 'appEnvironment', 'apiBaseSvc', 'appCookie', 'defaultLocale',
-        function (openWeatherMapApiSettings, appEnvironment, apiBaseSvc, appCookieSvc, defaultLocale) {
+    .factory('openWeatherMapApiSvc', ['apiBase', 'openWeatherMapApiSettings', 'appEnvironment', 'appCookie', 'defaultLocale',
+        function (apiBase, openWeatherMapApiSettings, appEnvironment, appCookieSvc, defaultLocale) {
         var child = function () {
-            apiBaseSvc.apply(this, arguments);
+            apiBase.apply(this, arguments);
         };
 
         /* Create a String.format() statement */
@@ -21,9 +21,8 @@ angular.module('WeatherApp.services')
             return formatted;
         };
 
-        // Get base class prototype properties
-        //child.prototype = apiBaseSvc.prototype;        
-        angular.extend(child.prototype, apiBaseSvc.prototype);
+        // Get base class prototype properties        
+        angular.extend(child.prototype, apiBase.prototype);
 
         /* Fetch api configuration */
         child.prototype.resource = function () {
@@ -35,7 +34,7 @@ angular.module('WeatherApp.services')
             config.url = this.formatApiUrl(config.url);
             config.url = this.setUrlParameterValues(config);
             // Apply base logic
-            return apiBaseSvc.prototype.prepareConfig(config);
+            return apiBase.prototype.prepareConfig(config);
         }
 
         /* Replaces string placeholders with parameter data */
