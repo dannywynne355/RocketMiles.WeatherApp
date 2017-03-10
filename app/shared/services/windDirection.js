@@ -1,5 +1,5 @@
 ﻿/*
-    Holds the current units to use for displaying temperature
+    Converts the wind direction in polar coordinates to a standard navigational direction
 */
 angular.module('WeatherApp.services')
     .factory("windDirection", windDirection);

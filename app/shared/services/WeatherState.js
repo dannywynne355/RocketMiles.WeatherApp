@@ -54,39 +54,5 @@ function weatherState() {
         WeatherState.default
     );
 
-    /*
-    WeatherState.prototype = {
-        city : {
-            id : '',
-            name : '',
-            coord : {
-                latitude: '',
-                longitude: ''
-            }
-        },    			
-        weather : {
-            id : '',
-            main : '',
-            description : '',
-            icon : ''
-        },
-        main : {
-            temperature : '',
-            humidity : '',
-            pressure : ''
-        },
-        wind : {
-            speed : '',
-            deg : ''
-        },
-        clouds : '',
-        rain : '',
-        snow : '',
-        timestamp: '',
-        setData: function (localeData) {
-            angular.extend(this, localeData);
-        }
-    };
-    */
     return WeatherState;
 }
