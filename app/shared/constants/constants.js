@@ -13,6 +13,11 @@
             ]
         }
     })
+    .constant('localeType', {
+        default: 'default',
+        geolocation: 'geolocation',
+        userAdded: 'userAdded'
+    })
     .constant('defaultLocale', {
         city: 'Chicago',        
         countryCode: 'US',
