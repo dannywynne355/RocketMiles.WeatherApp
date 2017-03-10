@@ -2,8 +2,8 @@
     Generic service to handle communicatie with the NOAA Api
 */
 angular.module('WeatherApp.services')
-    .factory('openWeatherMapApiSvc', ['openWeatherMapApiSettings', 'environmentService', 'apiBaseSvc', 'appCookie', 'defaultLocale',
-        function (openWeatherMapApiSettings, environmentService, apiBaseSvc, appCookieSvc, defaultLocale) {
+    .factory('openWeatherMapApiSvc', ['openWeatherMapApiSettings', 'appEnvironment', 'apiBaseSvc', 'appCookie', 'defaultLocale',
+        function (openWeatherMapApiSettings, appEnvironment, apiBaseSvc, appCookieSvc, defaultLocale) {
         var child = function () {
             apiBaseSvc.apply(this, arguments);
         };

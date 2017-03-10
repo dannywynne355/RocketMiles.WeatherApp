@@ -2,7 +2,7 @@
     Generic service to handle communicatie with the NOAA Api
 */
 angular.module('WeatherApp.services')
-    .factory('apiBaseSvc', function ($http, environmentService) {
+    .factory('apiBaseSvc', function ($http, appEnvironment) {
         // var svc = { };
 
         // environment: environmentService.getEnvironment() // Get config settings for environment
@@ -16,7 +16,7 @@ angular.module('WeatherApp.services')
         }
         
         /* Get config settings for environment */
-        svc.prototype.environment = environmentService.getEnvironment();
+        svc.prototype.environment = appEnvironment.getEnvironment();
                         
         /* Api-specific adjustments for config args */
         svc.prototype.prepareConfig = function (config) {            

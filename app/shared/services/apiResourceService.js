@@ -2,7 +2,7 @@
     Generic service to handle communicatie with the NOAA Api
 */
 angular.module('WeatherApp.services')
-    .factory('apiResourceSvc', function ($http, apiSettings, environmentService, apiBaseSvc) {        
+    .factory('apiResourceSvc', function ($http, apiSettings, appEnvironment, apiBaseSvc) {
         var child = function () {
             apiBaseSvc.apply(this, arguments);
         };

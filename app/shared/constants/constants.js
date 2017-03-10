@@ -1,5 +1,5 @@
 ﻿angular.module('WeatherApp.config')    
-    .constant('appEnvironment', {
+    .constant('appEnvironmentSettings', {
         production: {
             name: 'production',
             hosts: [
