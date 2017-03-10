@@ -23,16 +23,18 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
     <link rel="stylesheet" type="text/css" href="assets/lib/bootstrap/3.2.0/bootstrap.min.css">    
+    <link rel="stylesheet" href="assets/lib/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/custom.css" />
     <title>RocketMiles Weather App</title>
 </head>
 <body>
-    <div class="app-body" ng-cloak="">
+    <div class="app-body">
         <div ng-view></div>
     </div>
     <!-- Libs -->
     <script type="text/javascript" src="assets/lib/jquery/2.1.1/jquery.min.js"></script>        
-    <script type="text/javascript" src="assets/lib/angular/1.4/angular.min.js"></script>
+    <script type="text/javascript" src="assets/lib/angular/1.4/angular.min.js"></script>    
+    <script type="text/javascript" src="assets/lib/angular/1.4/angular-animate.min.js"></script>
     <script type="text/javascript" src="assets/lib/angular/1.4/angular-route.min.js"></script>
     <script type="text/javascript" src="assets/lib/angular/1.4/angular-sanitize.js"></script>
     <script type="text/javascript" src="assets/lib/angular/1.4/angular-cookies.min.js"></script>
@@ -42,14 +44,20 @@
     <script type="text/javascript" src="app/app.module.js"></script>
     <script type="text/javascript" src="app/app.route.js"></script>
     <script type="text/javascript" src="app/shared/constants/constants.js"></script>
-    <script type="text/javascript" src="app/shared/constants/api.js"></script>
+    <script type="text/javascript" src="app/shared/constants/api.js"></script>    
+    <script type="text/javascript" src="app/shared/constants/api-settings/openWeatherMapApiSettings.js"></script>    
+    <script type="text/javascript" src="app/shared/constants/events.js"></script>
+    <script type="text/javascript" src="app/shared/models/Locale.js"></script>
     <script type="text/javascript" src="app/shared/services/environmentService.js"></script>
     <script type="text/javascript" src="app/shared/services/apiRequestService.js"></script>
-    <script type="text/javascript" src="app/shared/services/apiBaseService.js"></script>
     <script type="text/javascript" src="app/shared/services/apiResourceService.js"></script>
+    <script type="text/javascript" src="app/shared/services/apiBaseService.js"></script>    
     <script type="text/javascript" src="app/shared/services/appCookieService.js"></script>
     <script type="text/javascript" src="app/shared/services/googleMapsGeocodingApiService.js"></script>
-    <script type="text/javascript" src="app/shared/promises/geolocationPromise.js"></script>
+    <script type="text/javascript" src="app/shared/services/openWeatherMapApiService.js"></script>
+    <script type="text/javascript" src="app/shared/promises/geolocationPromise.js"></script>    
+    <script type="text/javascript" src="app/components/partials/search/search.controller.js"></script>
+    <script type="text/javascript" src="app/components/partials/search/search.directives.js"></script>
     <script type="text/javascript" src="app/components/partials/main/main.service.js"></script>
     <script type="text/javascript" src="app/components/partials/main/main.controller.js"></script>
     <script type="text/javascript" src="app/components/modals/current-location/current-location.controller.js"></script>

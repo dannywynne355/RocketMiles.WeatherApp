@@ -1,5 +1,6 @@
-﻿angular.module('WeatherApp.controllers')
-    .controller('ModalInstanceCtrl', function ($scope, $modalInstance, geolocationPromise) {
+﻿/// <reference path="current-location.controller.js" />
+angular.module('WeatherApp.controllers')
+    .controller('ModalInstanceCtrl', ['$rootScope', '$scope', '$uibModalInstance', 'geolocationPromise', 'defaultLocale', 'broadcastEvents', function ($rootScope, $scope, $uibModalInstance, geolocationPromise, defaultLocale, broadcastEvents) {
     // var $ctrl = this;
     /*
     $ctrl.items = items;
@@ -26,19 +27,53 @@
     $scope.ok = function () {
         // console.log(prefix + '$close returned ' + $scope.$close('ok'));
         geolocationPromise.then(
-            function (response) {
-                console.log(response);
-                console.log(response.region);
+            function (responselocale) {                
+                if (responselocale) {
+                    // Call back to close modal
+                    var callback = function () {
+                        // Close the modal
+                        $scope.$close('ok')
+                    };                    
+
+                    // Could not get current location, so just use the default location
+                    $rootScope.$broadcast(broadcastEvents.currentLocation.useCurrentGeolocationNotification, { locale: responselocale, callback: callback });
+                } else {
+                    /* Trapped Error */
+
+                    // Call back to close modal
+                    var callback = function () {
+                        // Close the modal
+                        $scope.$close('ok')
+                    };
+
+                    // Could not get current location, so just use the default location
+                    $rootScope.$broadcast(broadcastEvents.currentLocation.useDefaultLocaleNotification, { callback: callback });
+                }
             },
             function (response) {
+                /* Error Case */
+                
+                // Call back to close modal
+                var callback = function () {
+                    // Close the modal
+                    $scope.$close('ok')
+                };
 
+                // Could not get current location, so just use the default location
+                $rootScope.$broadcast(broadcastEvents.currentLocation.useDefaultLocaleNotification, { callback: callback });
             }
         );
-        $scope.$close('ok')
+        
     };
 
     $scope.cancel = function () {
-        // console.log(prefix + '$dismiss returned ' + $scope.$dismiss('cancel'));
-        $scope.$dismiss('cancel')
+        var callback = function () {
+            // Close the modal
+            $scope.$dismiss('cancel')
+        };
+
+        // Throw notification upstream to make an update
+        $rootScope.$broadcast(broadcastEvents.currentLocation.useDefaultLocaleNotification, { callback: callback });
+        
     };
-});
+}]);

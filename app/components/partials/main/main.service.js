@@ -43,8 +43,31 @@
 
         return svc;
     })
-    .factory('mainSvc', function ($http, apiRequestSvc, apiResourceSvc, appCookieSvc) {
+    .factory('mainSvc', ['$http', 'apiRequestSvc', 'apiResourceSvc', 'openWeatherMapApiSvc', 'appCookieSvc', function ($http, apiRequestSvc, apiResourceSvc, openWeatherMapApiSvc, appCookieSvc) {
         var svc = {};
+
+        svc.getNewApi = function () {
+            var api = new openWeatherMapApiSvc();
+            console.log(api.resource().endpoints.currentWeather.byZip);
+            var config = api.resource().endpoints.currentWeather.byZip;
+
+            var callback = function () {
+                return api.makeRequest(config);
+            }
+
+            return apiRequestSvc
+                .getOrAdd(config.url, callback)
+                .then(
+                    function (response) {
+                        return api.promiseSuccessHandler(response);
+                    },
+
+                  function (response) {
+                        // Get response (error) object                        
+                        return api.promiseErrorHandler(response);
+                    }
+                );
+        };
 
         svc.getForecast = function () {
             //var api = new apiResourceSvc();            
@@ -111,4 +134,4 @@
         };
 
         return svc;
-    });
+    }]);

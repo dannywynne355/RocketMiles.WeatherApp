@@ -1,5 +1,5 @@
 ﻿angular.module('WeatherApp.routes', [])
-    .config(['$routeProvider', function ($routeProvider) {
+    .config(['$routeProvider', function ($routeProvider) {        
         $routeProvider
         .when('/', {
             controller: 'MainCtrl',

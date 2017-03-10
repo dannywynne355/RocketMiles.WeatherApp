@@ -1,4 +1,4 @@
-﻿angular.module('WeatherApp.config', [])
+﻿angular.module('WeatherApp.config')
     .constant('appCookie', {
         name: 'WeatherApp'
     })
@@ -13,7 +13,7 @@
             ]
         }
     })
-    .constant('defaultLocation', {
+    .constant('defaultLocale', {
         city: 'Chicago',        
         countryCode: 'US',
         latitude: '41.883030',
@@ -21,4 +21,4 @@
         state: 'IL',        
         zip: '60661'
     })
-    ;
+    
