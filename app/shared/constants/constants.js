@@ -1,4 +1,7 @@
-﻿angular.module('WeatherApp.config')    
+﻿/*
+    General constants for WeatherApp 
+*/
+angular.module('WeatherApp.config')
     .constant('appEnvironmentSettings', {
         production: {
             name: 'production',

@@ -1,4 +1,7 @@
-﻿angular.module('WeatherApp.config')
+﻿/*
+    Configuration settings for accessing openweathermap.org api
+*/
+angular.module('WeatherApp.config')
     .constant('openWeatherMapApiSettings', {
         config: {
             production: {
