@@ -6,6 +6,7 @@
 
 angular.module('WeatherApp.config')
     .constant('apiCacheSettings', {
+        enabled: true,
         name: 'WeatherApp'
     });
 
@@ -15,5 +16,8 @@ angular.module('WeatherApp.services')
 apiCache.$inject = ['$cacheFactory', 'apiCacheSettings'];
         
 function apiCache($cacheFactory, apiCacheSettings) {
-    return $cacheFactory(apiCacheSettings.name);
+    return {
+        enabled: apiCacheSettings.enabled,
+        cache: $cacheFactory(apiCacheSettings.name)
+    };
 }

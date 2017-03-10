@@ -33,7 +33,7 @@
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-xs-12 text-center">
-                                                                <span class="temperature">34&deg; F</span>
+                                                                <span class="temperature">34&deg; {{ weatherData.CurrentWeather.main.temperatureUnits }}</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -43,7 +43,7 @@
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-xs-12 text-center">
-                                                                <small class="lastUpdated">as of 3:34pm</small>
+                                                                <small class="lastUpdated">as of {{ weatherData.CurrentWeather.timestamp * 1000 | date:'shortTime' }}</small>
                                                             </div>
                                                         </div>
                                                     </div>

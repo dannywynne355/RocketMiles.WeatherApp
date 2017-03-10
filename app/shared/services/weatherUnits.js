@@ -30,5 +30,19 @@ function weatherUnits(appCookie) {
         appCookie.save();        
     };
 
+    this.getAbbreviation = function () {
+        switch (this.get().toLowerCase()) {
+            case "imperial":
+                return "F";
+                break;
+            case "metric":
+                return "C";
+                break;
+            default:
+                return "K";
+                break;        
+        }
+    };
+
     return this;    
 }

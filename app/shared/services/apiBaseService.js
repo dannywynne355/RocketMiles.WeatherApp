@@ -2,7 +2,7 @@
     Generic service to handle communicatie with the NOAA Api
 */
 angular.module('WeatherApp.services')
-    .factory('apiBaseSvc', ['$http', 'appEnvironment', function ($http, appEnvironment) {
+    .factory('apiBaseSvc', ['$q', '$http', 'apiCache', 'appEnvironment', function ($q, $http, apiCache, appEnvironment) {
         // var svc = { };
 
         // environment: environmentService.getEnvironment() // Get config settings for environment
@@ -25,7 +25,33 @@ angular.module('WeatherApp.services')
 
         /* Returns a promise for an api request */
         svc.prototype.makeRequest = function (config) {
-            return $http(this.prepareConfig(config));
+            var deferred = $q.defer();
+
+            // Run this first so that config properties are all fully set
+            config = this.prepareConfig(config);
+
+            if (apiCache.enabled) {
+                // Return the data if we already have it
+                var cacheId = config.url;
+                var cachedData = apiCache.cache.get(cacheId);
+                if (cachedData) {
+                    success(cachedData);
+                    return;
+                }
+            }
+            
+            // Execute request and store it
+            $http(config).then(
+                function (response) {
+                    deferred.resolve(response);
+                    apiCache.put(cacheId, deferred.resolve(response));
+                },
+                function (response) {
+                    deferred.resolve(response);
+                }
+            );
+
+            return deferred.promise;
         }
 
         /*

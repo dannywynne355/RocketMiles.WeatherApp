@@ -2,7 +2,7 @@
 
 WeatherAppControllers.controller('MainController', WeatherAppMain);
 
-function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, geolocationFinder, broadcastEvents, mainSvc, weatherUnits) {    
+function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, geolocationFinder, broadcastEvents, mainSvc, weatherUnits, WeatherState) {
     $scope.$on(broadcastEvents.setLocation.useDefaultLocaleNotification, function (event, args) {
         console.log('Use default');
 
@@ -54,7 +54,9 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, geo
 
         var weatherData = new LocaleWeather();        
         weatherData.Locale = new Locale(defaultLocale);
-
+        weatherData.CurrentWeather = new WeatherState();
+        weatherData.CurrentWeather.main.temperatureUnits = weatherUnits.getAbbreviation();
+        weatherData.CurrentWeather.timestamp = 1435658272;
         $scope.weatherData = weatherData;
     });
 
@@ -141,4 +143,4 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, geo
         $scope.$broadcast(broadcastEvents.setLocation.updateNotification, { locale: locale });
     };
 }
-WeatherAppMain.$inject = ['$scope', '$uibModal', 'Locale', 'defaultLocale', 'appCookie', 'geolocationFinder', 'broadcastEvents', 'mainSvc', 'weatherUnits'];
+WeatherAppMain.$inject = ['$scope', '$uibModal', 'Locale', 'defaultLocale', 'appCookie', 'geolocationFinder', 'broadcastEvents', 'mainSvc', 'weatherUnits', 'WeatherState'];
