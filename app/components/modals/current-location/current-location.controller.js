@@ -1,67 +1,34 @@
-﻿/// <reference path="current-location.controller.js" />
+﻿/*
+    Controller for Current Location modal.  Shown when user comes to site for first time and there
+    is no knowledge of a site.  Allow them to use either their current geocoordinates or the default
+    locale in the system.
+*/
+
 angular.module('WeatherApp.controllers')
-    .controller('ModalInstanceCtrl', ['$rootScope', '$scope', '$uibModalInstance', 'geolocationFinder', 'broadcastEvents', function ($rootScope, $scope, $uibModalInstance, geolocationFinder, broadcastEvents) {
-    // var $ctrl = this;
-    /*
-    $ctrl.items = items;
-    $ctrl.selected = {
-        item: $ctrl.items[0]
-    };
-    */
-    /*
-    $ctrl.ok = function () {
-        console.log($modalInstance);
-        // $modalInstance.close($ctrl.selected.item);
-        $modalInstance.dismiss('ok');
-    };
+    .controller('CurrentLocationCtrl', CurrentLocationController);
 
-    $ctrl.cancel = function () {
-        console.log('cancel');
-        $modalInstance.dismiss('cancel');
-        //$ctrl.dismiss({ $value: 'cancel' });
-    };
-
-    
-    */
-    
-    $scope.ok = function () {
-        // console.log(prefix + '$close returned ' + $scope.$close('ok'));
+function CurrentLocationController($scope, $uibModalInstance, geolocationFinder, broadcastEvents) {       
+    $scope.ok = function () {        
         geolocationFinder.then(
             function (responseLocale) {
-                if (responseLocale) {
-                    console.log(responseLocale);
-                    // Call back to close modal
-                    var callback = function () {
-                        // Close the modal
-                        $scope.$close('ok')
-                    };                    
-
-                    // Could not get current location, so just use the default location
-                    $rootScope.$broadcast(broadcastEvents.setLocation.updateNotification, { locale: responseLocale, callback: callback });
-                } else {
-                    /* Trapped Error */
-
-                    // Call back to close modal
-                    var callback = function () {
-                        // Close the modal
-                        $scope.$close('ok')
-                    };
-
-                    // Could not get current location, so just use the default location
-                    $rootScope.$broadcast(broadcastEvents.setLocation.useDefaultLocaleNotification, { callback: callback });
-                }
-            },
-            function (response) {
-                /* Error Case */
-                
-                // Call back to close modal
                 var callback = function () {
                     // Close the modal
                     $scope.$close('ok')
                 };
 
+                if (responseLocale) {                                        
+                    // Got a location - use it!
+                    $scope.$emit(broadcastEvents.setLocation.updateNotification, { locale: responseLocale, callback: callback });
+                } else {
+                    /* Trapped Error */                    
+                    // Could not get current location, so just use the default location
+                    $scope.$emit(broadcastEvents.setLocation.useDefaultLocaleNotification, { callback: callback });
+                }
+            },
+            function (response) {
+                /* Error Case */                                
                 // Could not get current location, so just use the default location
-                $rootScope.$broadcast(broadcastEvents.currentLocation.useDefaultLocaleNotification, { callback: callback });
+                $scope.$emit(broadcastEvents.setLocation.useDefaultLocaleNotification, { callback: callback });
             }
         );
         
@@ -74,7 +41,9 @@ angular.module('WeatherApp.controllers')
         };
 
         // Throw notification upstream to make an update
-        $rootScope.$broadcast(broadcastEvents.currentLocation.useDefaultLocaleNotification, { callback: callback });
+        $scope.$emit(broadcastEvents.setLocation.useDefaultLocaleNotification, { callback: callback });
         
     };
-}]);
+};
+
+CurrentLocationController.$inject = ['$scope', '$uibModalInstance', 'geolocationFinder', 'broadcastEvents'];

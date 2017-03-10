@@ -60,14 +60,14 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, geo
         $scope.weatherData = weatherData;
     });
 
-    /*
+    
     var modalInstance = $uibModal.open({
         animation: $scope.animationsEnabled,
         templateUrl: '/app/components/modals/current-location/current-location.view.html',
-        controller: 'ModalInstanceCtrl',
+        controller: 'CurrentLocationCtrl',
         scope: $scope
     });
-    */
+    
 
     var getMostRecentEntry = function () {
         mainSvc.getNewApi().then(
