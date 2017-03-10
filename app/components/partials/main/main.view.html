@@ -222,36 +222,7 @@
             </div>
         </div>
     </div>    
-    <div class="row">
-        <div class="col-md-12">
-            <div class="well well-sm">
-                <div class="row">
-                    <div class="col-xs-6">
-                        <div class="btn-group" uib-dropdown dropdown-append-to-body>
-                            <button id="btn-append-to-body" type="button" class="btn btn-primary btn-show-locations" uib-dropdown-toggle>
-                                View Locations <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">
-                                <li role="menuitem"><a ng-click="setKnownLocale(currentGeoLocale)"><i ng-show="currentGeoLocale.localeType == 'geolocation'" class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;{{ currentGeoLocale.city }}, {{ currentGeoLocale.region }} ({{ currentGeoLocale.zip }})</a></li>
-                                <li class="divider"></li>
-                                <li role="menuitem" ng-repeat="location in locations"><a ng-click="setKnownLocale(location)">{{ location.city }}, {{ location.region }} ({{ location.zip }})</a></li>
-                            </ul>
-                        </div>
-                    </div> <!-- .col-xs-6 -->
-                    <div class="col-xs-6 text-right">
-                        <div class="btn-group" uib-dropdown dropdown-append-to-body>
-                            <button id="btn-append-to-body" type="button" class="btn btn-primary btn-show-locations" uib-dropdown-toggle>
-                                Temperature Units <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">
-                                <li role="menuitem"><a ng-click="setUnits('imperial')">Fahrenheit</a></li>
-                                <li role="menuitem"><a ng-click="setUnits('metric')">Celsius</a></li>
-                                <li role="menuitem"><a ng-click="setUnits('standard')">Kelvin</a></li>
-                            </ul>
-                        </div>
-                    </div> <!-- .col-xs-6 -->
-                </div> <!-- .row -->
-            </div> <!-- .well -->
-        </div> <!-- .col-md-12 -->
-    </div> <!-- .row -->
+    <div ng-controller="FooterCtrl" id="footer">
+        <div ng-include="'/app/components/partials/footer/footer.view.html'" />
+    </div>
 </div> <!-- .container -->

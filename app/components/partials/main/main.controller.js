@@ -126,21 +126,6 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, geo
 
     getPreviousLocale();
 
-    /* Handles changes in temperature units */
-    $scope.setUnits = function (unit) {
-        // Update our object with the units
-        weatherUnits.set(unit);
 
-        console.log("Need to add definition for known location");
-
-        // Request that the data if refreshed
-        $scope.$broadcast(broadcastEvents.setLocation.refreshNotification);
-
-    };
-
-    /* Handles selecting an existing location */
-    $scope.setKnownLocale = function (locale) {
-        $scope.$broadcast(broadcastEvents.setLocation.updateNotification, { locale: locale });
-    };
 }
 WeatherAppMain.$inject = ['$scope', '$uibModal', 'Locale', 'defaultLocale', 'appCookie', 'geolocationFinder', 'broadcastEvents', 'mainSvc', 'weatherUnits', 'WeatherState'];
