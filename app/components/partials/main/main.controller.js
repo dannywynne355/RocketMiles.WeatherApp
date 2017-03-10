@@ -1,8 +1,8 @@
 ﻿var WeatherAppControllers = angular.module('WeatherApp.controllers');
 
-WeatherAppControllers.controller('MainCtrl', WeatherAppMain);
+WeatherAppControllers.controller('MainController', WeatherAppMain);
 
-function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookieSvc, geolocationPromise, broadcastEvents, mainSvc) {
+function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookieSvc, geolocationFinder, broadcastEvents, mainSvc) {
     $scope.$on(broadcastEvents.currentLocation.useDefaultLocaleNotification, function (event, args) {
         // Use the default location            
         var getLocale = function () {
@@ -32,15 +32,14 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookieSvc, 
             args.callback();
         }
     });
-
-    /*
+    
     var modalInstance = $uibModal.open({
         animation: $scope.animationsEnabled,
         templateUrl: '/app/components/modals/current-location/current-location.view.html',
         controller: 'ModalInstanceCtrl',
         scope: $scope
     });
-    */
+    
 
     var getMostRecentEntry = function () {
         mainSvc.getNewApi().then(
@@ -69,10 +68,10 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookieSvc, 
     // console.log(new google.maps.LatLng(42.1038846, -72.5868353).toUrlValue());
 
     $scope.lastLogEntry = {}; // Do this to give it an initial value in case something wonky happens with fetching data
-    getMostRecentEntry();
+    // getMostRecentEntry();
 
     var getCurrentLocale = function () {
-        geolocationPromise.then(
+        geolocationFinder.then(
             function (response) {
                 var locale = response;
                 locale.localeType = 'geolocation';
@@ -131,4 +130,4 @@ zipCodeLookupSvc.getExtent()
     */
 
 }
-WeatherAppMain.$inject = ['$scope', '$uibModal', 'Locale', 'defaultLocale', 'appCookieSvc', 'geolocationPromise', 'broadcastEvents', 'mainSvc'];
+WeatherAppMain.$inject = ['$scope', '$uibModal', 'Locale', 'defaultLocale', 'appCookieSvc', 'geolocationFinder', 'broadcastEvents', 'mainSvc'];

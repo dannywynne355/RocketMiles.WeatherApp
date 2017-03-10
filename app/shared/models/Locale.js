@@ -16,8 +16,8 @@ angular.module('WeatherApp.services')
             countryCode: '',
             latitude: '',
             longitude: '',
-            region: '',
-            regionName: '',
+            state: '',
+            stateName: '',
             zip: '',
             setData: function (localeData) {
                 angular.extend(this, localeData);

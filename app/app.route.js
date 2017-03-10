@@ -1,12 +1,18 @@
-﻿angular.module('WeatherApp.routes', [])
-    .config(['$routeProvider', function ($routeProvider) {        
-        $routeProvider
+﻿/*
+    Handles all routing for app
+*/
+angular
+    .module('WeatherApp.routes')
+    .config(config);
+
+function config($routeProvider) {
+    $routeProvider
         .when('/', {
-            controller: 'MainCtrl',
-            templateUrl: 'app/components/partials/main/main.view.html'
+            templateUrl: 'app/components/partials/main/main.view.html',
+            controller: 'MainController',            
         })
-        .otherwise({
-            controller: 'MainCtrl',
-            templateUrl: 'app/components/partials/main/main.view.html'
+        .otherwise('/', {
+            templateUrl: 'app/components/partials/main/main.view.html',
+            controller: 'MainController',            
         });
-    }]);
+}

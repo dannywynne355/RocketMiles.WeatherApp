@@ -1,6 +1,6 @@
 ﻿/// <reference path="current-location.controller.js" />
 angular.module('WeatherApp.controllers')
-    .controller('ModalInstanceCtrl', ['$rootScope', '$scope', '$uibModalInstance', 'geolocationPromise', 'defaultLocale', 'broadcastEvents', function ($rootScope, $scope, $uibModalInstance, geolocationPromise, defaultLocale, broadcastEvents) {
+    .controller('ModalInstanceCtrl', ['$rootScope', '$scope', '$uibModalInstance', 'geolocationFinder', 'defaultLocale', 'broadcastEvents', function ($rootScope, $scope, $uibModalInstance, geolocationFinder, defaultLocale, broadcastEvents) {
     // var $ctrl = this;
     /*
     $ctrl.items = items;
@@ -26,9 +26,10 @@ angular.module('WeatherApp.controllers')
     
     $scope.ok = function () {
         // console.log(prefix + '$close returned ' + $scope.$close('ok'));
-        geolocationPromise.then(
-            function (responselocale) {                
-                if (responselocale) {
+        geolocationFinder.then(
+            function (responseLocale) {
+                if (responseLocale) {
+                    console.log(responseLocale);
                     // Call back to close modal
                     var callback = function () {
                         // Close the modal
@@ -36,7 +37,7 @@ angular.module('WeatherApp.controllers')
                     };                    
 
                     // Could not get current location, so just use the default location
-                    $rootScope.$broadcast(broadcastEvents.currentLocation.useCurrentGeolocationNotification, { locale: responselocale, callback: callback });
+                    $rootScope.$broadcast(broadcastEvents.currentLocation.useCurrentGeolocationNotification, { locale: responseLocale, callback: callback });
                 } else {
                     /* Trapped Error */
 
