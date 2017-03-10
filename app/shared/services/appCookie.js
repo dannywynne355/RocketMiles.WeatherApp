@@ -1,5 +1,9 @@
 ﻿/*
     Wrapper for storing app data in a cookie
+
+    Cookies for app:
+    - the units to use to display the weather
+    - previous locales searched
 */
 
 /* Putting config settings here for ease of access */

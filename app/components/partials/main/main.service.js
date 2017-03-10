@@ -1,5 +1,5 @@
 ﻿angular.module('WeatherApp.services')    
-    .factory('mainSvc', ['$http', 'apiRequestSvc', 'apiResourceSvc', 'openWeatherMapApiSvc', 'appCookie', function ($http, apiRequestSvc, apiResourceSvc, openWeatherMapApiSvc, appCookieSvc) {
+    .factory('mainSvc', ['$http', 'apiRequestSvc', 'apiResourceSvc', 'openWeatherMapApiSvc', 'appEnvironment', function ($http, apiRequestSvc, apiResourceSvc, openWeatherMapApiSvc, appEnvironment) {
         var svc = {};
 
         svc.getNewApi = function () {
@@ -35,8 +35,9 @@
             var callback = function () {                
                 return api.makeRequest(config);
             }
+            
             //.getOrAdd(api.makeRequest(config))
-
+            
             return apiRequestSvc
                 .getOrAdd(config.url, callback)
                 .then(
@@ -48,8 +49,7 @@
                         // Get response (error) object                        
                         return api.promiseErrorHandler(response);                    
                     }
-                );
-            
+                );            
 
             /*
             return api

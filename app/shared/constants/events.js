@@ -2,7 +2,8 @@
     .constant('broadcastEvents', {
         currentLocation: {
             useDefaultLocaleNotification: 'use-default-locale-notification',
-            useCurrentGeolocationNotification: 'use-current-geolocation-notification'
+            useCurrentGeolocationNotification: 'use-current-geolocation-notification',
+            refreshNotification: 'refresh-data-notification'
         }
     })
     ;

@@ -14,7 +14,7 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, geo
         console.log($scope.selectedLocale);
 
         // If a callback exists, fire it.  From intro screen, this will close current location modal.
-        if (args.callback) {
+        if (args && args.callback) {
             args.callback();
         }
     });
@@ -28,11 +28,24 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, geo
         $scope.selectedLocale = args.locale;
         
         // If a callback exists, fire it.  From intro screen, this will close current location modal.
-        if (args.callback) {
+        if (args && args.callback) {
             args.callback();
         }
     });
+
+    $scope.$on(broadcastEvents.currentLocation.refreshNotification, function (event, args) {
+        console.log('Refresh data');
+
+        // $scope.selectedLocale = args.locale;
+
+        // If a callback exists, fire it.  From intro screen, this will close current location modal.
+        if (args && args.callback) {
+            args.callback();
+        }
+    });
+
     
+
     $scope.$watch('selectedLocale', function () {
         console.log('hey, myVar has changed!');
     });
@@ -108,6 +121,7 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, geo
         // Update our object with the units
         weatherUnits.set(unit);
         // Request that the data if refreshed
+        $scope.$broadcast(broadcastEvents.currentLocation.refreshNotification);
 
     };
 }
