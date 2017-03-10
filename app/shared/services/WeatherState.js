@@ -36,7 +36,8 @@ function weatherState() {
         },
         wind: {
             speed: '',
-            deg: ''
+            deg: '',
+            direction: ''
         },
         clouds: '',
         rain: '',

@@ -8,8 +8,8 @@
             </div>
             
         </div> <!-- .col-md-12 -->
-    </div> <!-- .row -->
-    <div ng-show="weatherData.Locale = null && weatherData.CurrentWeather == null" class="row">
+    </div> <!-- .row -->    
+    <div ng-show="weatherData == null || (weatherData.Locale == null && weatherData.CurrentWeather == null)" class="row">
         <div class="col-xs-12">
             <div class="alert alert-danger">
                 <div class="row">
@@ -28,7 +28,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div ng-hide="weatherData == null || (weatherData.Locale == null && weatherData.CurrentWeather == null)" class="row">
         <div class="col-md-8 col-xs-12">
             <div class="row">
                 <div class="col-xs-12">
@@ -48,21 +48,21 @@
                                                             </div>
                                                         </div>
                                                         <div class="row">
-                                                            <div class="col-xs-12 text-center"><img src="http://openweathermap.org/img/w/10d.png" border="0" /></div>
+                                                            <div class="col-xs-12 text-center"><img ng-hide="!weatherData.CurrentWeather.weather.icon" src="{{ weatherData.CurrentWeather.weather.icon }}" border="0" /><i ng-hide="weatherData.CurrentWeather.weather.icon" class="fa fa-question fa-5x" aria-hidden="true"></i></div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-xs-12 text-center">
-                                                                <span class="temperature">34&deg; {{ weatherData.CurrentWeather.main.temperatureUnits }}</span>
+                                                                <span ng-hide="!weatherData.CurrentWeather.main.temperature" class="temperature">{{ weatherData.CurrentWeather.main.temperature }}&deg; {{ weatherData.CurrentWeather.main.temperatureUnits }}</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-xs-12 text-center">
-                                                                <span class="description">cloudy</span>
+                                                                <span ng-hide="!weatherData.CurrentWeather.weather.description" class="description">{{ weatherData.CurrentWeather.weather.description}}</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-xs-12 text-center">
-                                                                <small class="lastUpdated">as of {{ weatherData.CurrentWeather.timestamp * 1000 | date:'shortTime' }}</small>
+                                                                <small ng-hide="!weatherData.CurrentWeather.timestamp" class="lastUpdated">as of {{ weatherData.CurrentWeather.timestamp * 1000 | date:'shortTime' }}</small>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -72,20 +72,20 @@
                                                 <div class="row">
                                                     <div class="col-xs-12">
                                                         <h4>Details</h4>
-                                                        Humidity<br />
-                                                        Wind (spd/degree)<br />
-                                                        Clouds: x%<br />
-                                                        (opt) Rain in last 3 hours:<br />
-                                                        (opt) Snow in last 3 hours:<br />
+                                                        <span ng-hide="!weatherData.CurrentWeather.main.humidity" class="detail">Humidity: {{ weatherData.CurrentWeather.main.humidity }}%</span><br />
+                                                        <span ng-hide="!weatherData.CurrentWeather.wind.speed">Wind: {{ weatherData.CurrentWeather.wind.direction }} {{ weatherData.CurrentWeather.wind.speed }} mph</span><br />
+                                                        <span ng-hide="!weatherData.CurrentWeather.clouds" class="detail">Cloudiness: {{ weatherData.CurrentWeather.clouds }}%</span><br />
+                                                        <span ng-hide="!weatherData.CurrentWeather.rain" class="detail">Rain (Last 3 Hours): {{ weatherData.CurrentWeather.rain }}</span><br />
+                                                        <span ng-hide="!weatherData.CurrentWeather.snow" class="detail">Snow (Last 3 Hours): {{ weatherData.CurrentWeather.snow }}</span><br />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>                                
+                                </div>
                             </div>
                         </div>
-                    </div>                                        
+                    </div>
                 </div>
             </div>
             <div class="row next-12-hours">
@@ -101,75 +101,24 @@
                         </div>
                     </div>
                     <div ng-show="weatherData.ImmediateForecast != null" class="row">
-                        <div class="col-xs-3 next-12-item">
+                        <div ng-repeat="forecast in weatherData.ImmediateForecast" class="col-xs-3 next-12-item">
                             <div class="panel panel-default">
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-xs-12 text-center">
-                                            <h6>3pm</h6>
+                                            <h6>{{ forecast.timestamp * 1000 | date:'shortTime' }}</h6>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-xs-12 text-center"><img src="http://openweathermap.org/img/w/10d.png" border="0" /></div>
+                                        <div class="col-xs-12 text-center"><img ng-hide="!forecast.weather.icon" src="{{ forecast.weather.icon }}" border="0" /><i ng-hide="forecast.weather.icon" class="fa fa-question" aria-hidden="true"></i></div>                                        
                                     </div>
                                     <div class="col-xs-12 text-center">
-                                        <span class="temperature">34&deg; F</span>
-                                    </div>
-                                </div>
-                            </div>                            
-                        </div>    
-                        <div class="col-xs-3 next-12-item">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <div class="col-xs-12 text-center">
-                                            <h6>6pm</h6>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xs-12 text-center"><img src="http://openweathermap.org/img/w/10d.png" border="0" /></div>
-                                    </div>
-                                    <div class="col-xs-12 text-center">
-                                        <span class="temperature">34&deg; F</span>
+                                        <span ng-hide="!forecast.main.temperature" class="temperature">{{forecast.main.temperature }}&deg; {{ forecast.main.temperatureUnits }}</span>                                        
                                     </div>
                                 </div>
                             </div>
-                        </div>    
-                        <div class="col-xs-3 next-12-item">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <div class="col-xs-12 text-center">
-                                            <h6>9pm</h6>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xs-12 text-center"><img src="http://openweathermap.org/img/w/10d.png" border="0" /></div>
-                                    </div>
-                                    <div class="col-xs-12 text-center">
-                                        <span class="temperature">34&deg; F</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>    
-                        <div class="col-xs-3 next-12-item">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <div class="col-xs-12 text-center">
-                                            <h6>12am</h6>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xs-12 text-center"><img src="http://openweathermap.org/img/w/10d.png" border="0" /></div>
-                                    </div>
-                                    <div class="col-xs-12 text-center">
-                                        <span class="temperature">34&deg; F</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>    
-                    </div>  
+                        </div>                        
+                    </div>
                 </div>
             </div>
         </div>
@@ -184,68 +133,14 @@
                     <div class="alert alert-warning text-center">The forecast is currently unavailable.</div>
                 </div>
             </div>
-            <div ng-show="weatherData.Forecast != null">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="panel panel-default forecast-item">
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-xs-5">Fri<br />3/10</div>
-                                    <div class="col-xs-4"><span class="forecast-temperature">29 | 16 F</span></div>
-                                    <div class="col-xs-3"><img class="forecast-icon" src="http://openweathermap.org/img/w/10d.png" border="0" /></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="panel panel-default forecast-item">
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-xs-5">Fri<br />3/10</div>
-                                    <div class="col-xs-4"><span class="forecast-temperature">29 | 16 F</span></div>
-                                    <div class="col-xs-3"><img class="forecast-icon" src="http://openweathermap.org/img/w/10d.png" border="0" /></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="panel panel-default forecast-item">
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-xs-5">Fri<br />3/10</div>
-                                    <div class="col-xs-4"><span class="forecast-temperature">29 | 16 F</span></div>
-                                    <div class="col-xs-3"><img class="forecast-icon" src="http://openweathermap.org/img/w/10d.png" border="0" /></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="panel panel-default forecast-item">
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-xs-5">Fri<br />3/10</div>
-                                    <div class="col-xs-4"><span class="forecast-temperature">29 | 16 F</span></div>
-                                    <div class="col-xs-3"><img class="forecast-icon" src="http://openweathermap.org/img/w/10d.png" border="0" /></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="panel panel-default forecast-item">
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-xs-5">Fri<br />3/10</div>
-                                    <div class="col-xs-4"><span class="forecast-temperature">29 | 16 F</span></div>
-                                    <div class="col-xs-3"><img class="forecast-icon" src="http://openweathermap.org/img/w/10d.png" border="0" /></div>
-                                </div>
+            <div ng-show="weatherData.Forecast != null" ng-repeat="forecast in weatherData.Forecast" class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default forecast-item">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-xs-5"><span ng-hide="!forecast.timestamp" >{{ forecast.timestamp * 1000 | date:'shortTime' }}Fri<br />3/10</span></div>
+                                <div class="col-xs-4"><span class="forecast-temperature">29 | 16 F</span></div>                                
+                                <div class="col-xs-3"><img ng-hide="!forecast.weather.icon" src="{{ forecast.weather.icon }}" border="0" /><i ng-hide="forecast.weather.icon" class="fa fa-question" aria-hidden="true"></i></div>                                        
                             </div>
                         </div>
                     </div>

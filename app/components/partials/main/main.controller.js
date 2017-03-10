@@ -53,10 +53,10 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, geo
         console.log('hey, myVar has changed!');
 
         var weatherData = new LocaleWeather();        
-        weatherData.Locale = new Locale(defaultLocale);
+         weatherData.Locale = new Locale(defaultLocale);
         weatherData.CurrentWeather = new WeatherState();
         weatherData.CurrentWeather.main.temperatureUnits = weatherUnits.getAbbreviation();
-        weatherData.CurrentWeather.timestamp = 1435658272;
+         weatherData.CurrentWeather.timestamp = 1435658272;        
         $scope.weatherData = weatherData;
     });
 
