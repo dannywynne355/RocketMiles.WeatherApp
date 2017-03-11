@@ -2,7 +2,10 @@
 
 WeatherAppControllers.controller('MainController', WeatherAppMain);
 
-function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, broadcastEvents, weatherUnits, WeatherState) {
+function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, broadcastEvents, weatherData, weatherUnits, WeatherState) {
+    // Using this to toggle display of error conditions on load up.  Want to hide error screens when no data is available
+    $scope.initialized = false;
+
     $scope.$on(broadcastEvents.setLocation.useDefaultLocaleNotification, function (event, args) {
         console.log('Use default');
 
@@ -13,6 +16,8 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, bro
             return locale;
         };
         $scope.selectedLocale = getLocale();        
+
+        $scope.initialized = true;
 
         // If a callback exists, fire it.  From intro screen, this will close current location modal.
         if (args && args.callback) {
@@ -30,6 +35,8 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, bro
 
         $scope.selectedLocale = args.locale;
         
+        $scope.initialized = true;
+
         // If a callback exists, fire it.  From intro screen, this will close current location modal.
         if (args && args.callback) {
             args.callback();
@@ -41,6 +48,8 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, bro
 
         // $scope.selectedLocale = args.locale;
 
+        $scope.initialized = true;
+
         // If a callback exists, fire it.  From intro screen, this will close current location modal.
         if (args && args.callback) {
             args.callback();
@@ -50,14 +59,17 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, bro
     
 
     $scope.$watch('selectedLocale', function () {
-        console.log('hey, myVar has changed!');
-
-        var weatherData = new LocaleWeather();        
-         weatherData.Locale = new Locale(defaultLocale);
-        weatherData.CurrentWeather = new WeatherState();
-        weatherData.CurrentWeather.main.temperatureUnits = weatherUnits.getAbbreviation();
-         weatherData.CurrentWeather.timestamp = 1435658272;        
-        $scope.weatherData = weatherData;
+        console.log($scope.selectedLocale);
+        if ($scope.selectedLocale) {
+            // 
+            weatherData.getWeather();
+            var wd = new LocaleWeather();
+            wd.Locale = new Locale(defaultLocale);
+            wd.CurrentWeather = new WeatherState();
+            wd.CurrentWeather.main.temperatureUnits = weatherUnits.getAbbreviation();
+            wd.CurrentWeather.timestamp = 1435658272;
+            $scope.weatherData = wd;
+        }
     });        
     
     /* Check cookie for previous locations */
@@ -72,8 +84,12 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, bro
             scope: $scope
         });
     } else {
+        var cb = function () {
+            $scope.initialized = true;
+        };
+
         // Get first one - locations being appended to front, so this will be last stored one
-        $scope.$broadcast(broadcastEvents.setLocation.updateNotification, { locale: appCookie.locations[0] });
+        $scope.$broadcast(broadcastEvents.setLocation.updateNotification, { locale: appCookie.locations[0], callback: cb });
     }
 }
-WeatherAppMain.$inject = ['$scope', '$uibModal', 'Locale', 'defaultLocale', 'appCookie', 'broadcastEvents', 'weatherUnits', 'WeatherState'];
+WeatherAppMain.$inject = ['$scope', '$uibModal', 'Locale', 'defaultLocale', 'appCookie', 'broadcastEvents', 'weatherData', 'weatherUnits', 'WeatherState'];

@@ -42,7 +42,7 @@ function ApiBase($q, $http, apiCache, appEnvironment) {
         $http(config).then(
             function (response) {
                 deferred.resolve(response);
-                apiCache.put(cacheId, deferred.resolve(response));
+                apiCache.cache.put(cacheId, deferred.resolve(response));
             },
             function (response) {
                 deferred.resolve(response);

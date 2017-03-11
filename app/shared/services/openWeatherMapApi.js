@@ -52,11 +52,9 @@ function OpenWeatherMapApi(apiBase, openWeatherMapApiSettings, defaultLocale, we
                     this.push(weatherUnits.get());
                 } else {                    
                     this.push(defaultLocale[param]);
-                }
-                console.log(idx + "-" + param);
+                }                
             }, paramValues);
             config.url = config.url.format(paramValues);
-            console.log(config.url);
         }
 
         return config.url;

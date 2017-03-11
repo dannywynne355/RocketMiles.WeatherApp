@@ -9,7 +9,7 @@
             
         </div> <!-- .col-md-12 -->
     </div> <!-- .row -->    
-    <div ng-show="weatherData == null || (weatherData.Locale == null && weatherData.CurrentWeather == null)" class="row">
+    <div ng-show="initialized && (weatherData == null || (weatherData.Locale == null && weatherData.CurrentWeather == null))" class="row">
         <div class="col-xs-12">
             <div class="alert alert-danger">
                 <div class="row">

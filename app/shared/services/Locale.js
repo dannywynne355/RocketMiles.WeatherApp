@@ -16,6 +16,7 @@ function localeService(localeType) {
     Locale.prototype = {
         localeType: localeType.userAdded, // default, geolocation, userAdded            
         city: '',
+        cityId: '',
         country: '',
         countryCode: '',
         latitude: '',

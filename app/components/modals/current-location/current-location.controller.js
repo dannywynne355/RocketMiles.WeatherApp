@@ -13,7 +13,8 @@ function CurrentLocationController($scope, $uibModalInstance, geolocationFinder,
             function (responseLocale) {
                 var callback = function () {
                     // Close the modal
-                    $scope.$close('ok')
+                    $scope.$close('ok');
+                    $scope.initialized = true;
                 };
 
                 if (responseLocale) {                                        
@@ -37,7 +38,8 @@ function CurrentLocationController($scope, $uibModalInstance, geolocationFinder,
     $scope.cancel = function () {
         var callback = function () {
             // Close the modal
-            $scope.$dismiss('cancel')
+            $scope.$dismiss('cancel');
+            $scope.initialized = true;
         };
 
         // Throw notification upstream to make an update

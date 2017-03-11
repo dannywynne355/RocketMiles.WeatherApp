@@ -5,7 +5,7 @@ angular.module('WeatherApp.config')
     .constant('openWeatherMapApiSettings', {
         config: {
             production: {
-                urlRoot: 'http://api.xopenweathermap.org/data/2.5/',
+                urlRoot: 'http://api.openweathermap.org/data/2.5/',
                 credentials: {
                     user: 'dannywynne@the355group.com',
                     token: '7310462f02c601a5787ebbb9b6039230'
