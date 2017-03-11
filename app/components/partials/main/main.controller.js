@@ -2,7 +2,7 @@
 
 WeatherAppControllers.controller('MainController', WeatherAppMain);
 
-function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, broadcastEvents, weatherData, weatherUnits, WeatherState) {
+function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, broadcastEvents, weatherData) {
     // Using this to toggle display of error conditions on load up.  Want to hide error screens when no data is available
     $scope.initialized = false;        
 
@@ -15,9 +15,7 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, bro
             locale.isDefault = true;
             return locale;
         };
-        $scope.selectedLocale = getLocale();        
-
-        $scope.initialized = true;
+        $scope.selectedLocale = getLocale();                
 
         // If a callback exists, fire it.  From intro screen, this will close current location modal.
         if (args && args.callback) {
@@ -33,9 +31,7 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, bro
             $scope.$broadcast(broadcastEvents.setLocation.useDefaultLocaleNotification, { callback: args.callback });
         }
 
-        $scope.selectedLocale = args.locale;
-        
-        $scope.initialized = true;
+        $scope.selectedLocale = args.locale;        
 
         // If a callback exists, fire it.  From intro screen, this will close current location modal.
         if (args && args.callback) {
@@ -48,8 +44,6 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, bro
 
         // $scope.selectedLocale = args.locale;
         getSelectedLocaleWeatherReport();
-
-        $scope.initialized = true;
 
         // If a callback exists, fire it.  From intro screen, this will close current location modal.
         if (args && args.callback) {
@@ -70,15 +64,13 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, bro
                         console.log('here');
                         console.log(data);
                         $scope.weatherData = data;
+
+                        $scope.initialized = true;
+                    },
+                    function (error) {
+                        $scope.initialized = true;
                     }
                 );            
-
-            var wd2 = new LocaleWeather();
-            wd2.Locale = new Locale(defaultLocale);
-            wd2.CurrentWeather = new WeatherState();
-            wd2.CurrentWeather.main.temperatureUnits = weatherUnits.getAbbreviation();
-            wd2.CurrentWeather.timestamp = 1435658272;
-            // $scope.weatherData = wd2;
         }
     }
 
@@ -107,4 +99,4 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, bro
         $scope.$broadcast(broadcastEvents.setLocation.updateNotification, { locale: appCookie.locations[0], callback: cb });
     }
 }
-WeatherAppMain.$inject = ['$scope', '$uibModal', 'Locale', 'defaultLocale', 'appCookie', 'broadcastEvents', 'weatherData', 'weatherUnits', 'WeatherState'];
+WeatherAppMain.$inject = ['$scope', '$uibModal', 'Locale', 'defaultLocale', 'appCookie', 'broadcastEvents', 'weatherData'];
