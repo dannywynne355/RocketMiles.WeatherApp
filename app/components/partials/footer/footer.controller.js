@@ -19,11 +19,6 @@ function FooterController($scope, weatherUnits, broadcastEvents, geolocationFind
         $scope.$emit(broadcastEvents.setLocation.updateNotification, { locale: locale });
     };
 
-    $scope.refresh = function () {
-        // Request that the data if refreshed
-        $scope.$emit(broadcastEvents.setLocation.refreshNotification);
-    };
-
     /* Put the current geolocation  in the dropdown */
     var getGeoCurrentLocale = function () {
         geolocationFinder.then(
