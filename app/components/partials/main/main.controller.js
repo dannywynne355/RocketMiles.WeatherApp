@@ -98,34 +98,5 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, geo
     $scope.lastLogEntry = {}; // Do this to give it an initial value in case something wonky happens with fetching data
     // getMostRecentEntry();
 
-    var getGeoCurrentLocale = function () {
-        geolocationFinder.then(
-            function (response) {
-                var locale = response;
-                locale.localeType = 'geolocation';
-                $scope.currentGeoLocale = locale;
-            },
-            function (response) {
-
-            }
-        );
-    };
-
-    getGeoCurrentLocale();
-
-    var getPreviousLocale = function () {
-        var localeItems = [];
-
-        appCookie.load();
-        if (appCookie.locations != undefined) {
-            angular.forEach(appCookie.locations, function (locale, key) {
-                this.push(locale);
-            }, localeItems);
-        }
-    };
-
-    getPreviousLocale();
-
-
 }
 WeatherAppMain.$inject = ['$scope', '$uibModal', 'Locale', 'defaultLocale', 'appCookie', 'geolocationFinder', 'broadcastEvents', 'mainSvc', 'weatherUnits', 'WeatherState'];

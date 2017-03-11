@@ -1,9 +1,9 @@
 ﻿angular.module('WeatherApp.services')    
-    .factory('mainSvc', ['$http', 'apiRequestSvc', 'openWeatherMapApiSvc', 'appEnvironment', function ($http, apiRequestSvc, openWeatherMapApiSvc, appEnvironment) {
+    .factory('mainSvc', ['$http', 'apiRequestSvc', 'openWeatherMapApi', 'appEnvironment', function ($http, apiRequestSvc, openWeatherMapApiSvc, appEnvironment) {
         var svc = {};
 
         svc.getNewApi = function () {
-            var api = new openWeatherMapApiSvc();
+            var api = new openWeatherMapApi();
             console.log(api.resource().endpoints.currentWeather.byZip);
             var config = api.resource().endpoints.currentWeather.byZip;
 
