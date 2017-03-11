@@ -15,34 +15,35 @@ function weatherState() {
     };
     WeatherState.default = {
         city: {
-            id: '',
-            name: '',
+            id: false,
+            name: false,
+            country: false,
             coord: {
-                latitude: '',
-                longitude: ''
+                latitude: false,
+                longitude: false
             }
         },
         weather: {
-            id: '',
-            main: '',
-            description: '',
-            icon: ''
+            id: false,
+            main: false,
+            description: false,
+            icon: false,
         },
         main: {
-            temperature: '',
-            temperatureUnits: '',
-            humidity: '',
-            pressure: ''
+            temperature: false,
+            temperatureUnits: false,
+            humidity: false,
+            pressure: false
         },
         wind: {
-            speed: '',
-            deg: '',
-            direction: ''
+            speed: false,
+            deg: false,
+            direction: false
         },
-        clouds: '',
-        rain: '',
-        snow: '',
-        timestamp: ''
+        clouds: false,
+        rain: false,
+        snow: false,
+        timestamp: false
     };    
         
     WeatherState.prototype = angular.extend(

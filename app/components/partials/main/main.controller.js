@@ -56,18 +56,20 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, bro
     var getSelectedLocaleWeatherReport = function () {        
         if ($scope.selectedLocale) {
             console.log('update to locale');
-            console.log($scope.selectedLocale);
+            
             weatherData
                 .getWeather($scope.selectedLocale)
                 .then(
                     function (data) {
-                        console.log('here');
+                        console.log('weather report returned');
                         console.log(data);
                         $scope.weatherData = data;
 
                         $scope.initialized = true;
                     },
                     function (error) {
+                        console.log('weather report error');
+                        console.log(error);
                         $scope.initialized = true;
                     }
                 );            
