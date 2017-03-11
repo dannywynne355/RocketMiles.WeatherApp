@@ -2,7 +2,7 @@
 
 WeatherAppControllers.controller('MainController', WeatherAppMain);
 
-function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, geolocationFinder, broadcastEvents, mainSvc, weatherUnits, WeatherState) {
+function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, broadcastEvents, weatherUnits, WeatherState) {
     $scope.$on(broadcastEvents.setLocation.useDefaultLocaleNotification, function (event, args) {
         console.log('Use default');
 
@@ -76,4 +76,4 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, geo
         $scope.$broadcast(broadcastEvents.setLocation.updateNotification, { locale: appCookie.locations[0] });
     }
 }
-WeatherAppMain.$inject = ['$scope', '$uibModal', 'Locale', 'defaultLocale', 'appCookie', 'geolocationFinder', 'broadcastEvents', 'mainSvc', 'weatherUnits', 'WeatherState'];
+WeatherAppMain.$inject = ['$scope', '$uibModal', 'Locale', 'defaultLocale', 'appCookie', 'broadcastEvents', 'weatherUnits', 'WeatherState'];
