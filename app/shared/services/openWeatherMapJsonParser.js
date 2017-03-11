@@ -6,23 +6,60 @@ angular.module('WeatherApp.services')
 
 function ownJsonParser(windDirection, weatherUnits, WeatherState) {
     return {
-        parseResponse: function (json, args) {            
-            return angular.extend(
+        getOffset: function (json, offset) {
+            console.log('getOffset');
+            console.log(offset);
+            var currentParentNode = json;
+            angular.forEach(offset, function (v) {
+                currentParentNode = currentParentNode[v];
+            });
+            console.log(currentParentNode);
+            console.log('done with get offset');
+            return currentParentNode;
+            
+        },
+        parseResponse: function (json, args) {
+            // args can be empty
+            args = args || { offsets: {} };
+            
+            // Offsets determine the path into the json source where the data can be found.
+            // This will determine the parent that contains the field(s) with data
+            args.offsets = angular.extend(
+                {},
+                {
+                        city: ['city'],
+                        weather: ['weather', 0],
+                        wind: ['wind'],
+                        main: ['main'],
+                        clouds: ['clouds'],
+                        timestamp: [],
+                        rain: ['rain'],
+                        snow: ['snow']                    
+                },
+                args.offsets                
+            );
+            
+            // Merge up the default structure with the current data
+            var dst = {};
+            angular.merge(
+                dst,
                 WeatherState.default, 
                 {
-                    city: this.parseLocale(json),
-                    weather: this.parseWeatherProperty(json.weather[0]),
-                    wind: this.parseWindProperty(json.wind),
-                    main: this.parseMainProperty(json.main),
-                    clouds: this.parseCloudsProperty(json.clouds),
-                    timestamp: this.parseTimestampProperty(json),
-                    rain: json.hasOwnProperty('rain') ? this.parseRainProperty(json.rain) : false,
-                    snow: json.hasOwnProperty('snow') ? this.parseSnowProperty(json.snow) : false
-                }
-            );                        
+                    city: this.parseLocale(this.getOffset(json, args.offsets.city)),
+                    weather: this.parseWeatherProperty(this.getOffset(json, args.offsets.weather)),
+                    wind: this.parseWindProperty(this.getOffset(json, args.offsets.wind)),
+                    main: this.parseMainProperty(this.getOffset(json, args.offsets.main)),
+                    clouds: this.parseCloudsProperty(this.getOffset(json, args.offsets.clouds)),
+                    timestamp: this.parseTimestampProperty(this.getOffset(json, args.offsets.timestamp)),
+                    rain: json.hasOwnProperty('rain') ? this.parseRainProperty(this.getOffset(json, args.offsets.rain)) : false,
+                    snow: json.hasOwnProperty('snow') ? this.parseSnowProperty(this.getOffset(json, args.offsets.snow)) : false
+                }                
+            );
+            
+            return dst;
         },
-        parseWeatherProperty: function (json) {
-            return {
+        parseWeatherProperty: function (json) {            
+            return json == undefined ? {} : {
                 id: json.hasOwnProperty("id") ? json.id : false,
                 main: json.hasOwnProperty("main") ? json.main : false,
                 description: json.hasOwnProperty("description") ? json.description : false,
@@ -30,14 +67,14 @@ function ownJsonParser(windDirection, weatherUnits, WeatherState) {
             }
         },
         parseWindProperty: function (json) {
-            return {
+            return json == undefined ? {} : {
                 speed: json.hasOwnProperty("speed") ? json.speed : false,
                 deg: json.hasOwnProperty("deg") ? json.deg : false,
                 direction: json.hasOwnProperty("deg") ? windDirection.get(json.deg) : false
             }
         },
         parseMainProperty: function (json) {            
-            return {
+            return json == undefined ? {} : {
                 temperature: json.hasOwnProperty("temp") ? json.temp : false,
                 temperatureUnits: json.hasOwnProperty("temp") ? weatherUnits.getAbbreviation() : false,
                 pressure: json.hasOwnProperty("pressure") ? json.pressure : false,
@@ -45,19 +82,19 @@ function ownJsonParser(windDirection, weatherUnits, WeatherState) {
             }
         },
         parseCloudsProperty: function (json) {
-            return json.hasOwnProperty("all") ? json.all : false;
+            return json == undefined ? false : json.hasOwnProperty("all") ? json.all : false;
         },
         parseRainProperty: function (json) {
-            return json.hasOwnProperty("3h") ? json["3h"] : false;
+            return json == undefined ? false : json.hasOwnProperty("3h") ? json["3h"] : false;
         },
         parseSnowProperty: function (json) {
-            return json.hasOwnProperty("3h") ? json["3h"] : false;
+            return json == undefined ? false : json.hasOwnProperty("3h") ? json["3h"] : false;
         },
         parseTimestampProperty: function (json) {            
-            return json.hasOwnProperty("dt") ? json.dt : false;
+            return json == undefined ? false : json.hasOwnProperty("dt") ? json.dt : false;
         },
         parseLocale: function (json) {
-            return {
+            return json == undefined ? {} : {
                 id: json.hasOwnProperty("id") ? json.id : false,
                 name: json.hasOwnProperty("name") ? json.name : false,
                 country: json.hasOwnProperty("country") ? json.country : false,

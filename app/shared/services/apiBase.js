@@ -47,6 +47,7 @@ function ApiBase($q, $http, apiCache, appEnvironment) {
         }
         console.log(config.url);
         // Execute request and store it
+        /*
         $http(config).then(
             function (response) {
                 // Cache it only if there's a value
@@ -65,7 +66,7 @@ function ApiBase($q, $http, apiCache, appEnvironment) {
                 }                                
             }
         );
-
+        */
         return deferred.promise;
     }
 

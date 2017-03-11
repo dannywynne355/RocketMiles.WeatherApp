@@ -48,8 +48,16 @@ function WeatherData(openWeatherMapApi, openWeatherMapJsonParser, LocaleWeather,
                     function (response) {
                         if (response.error) {
                             return false;
-                        } else {
-                            return openWeatherMapJsonParser.parseResponse(response.data);                           
+                        } else {                            
+                            return openWeatherMapJsonParser
+                                .parseResponse(
+                                    response.data,
+                                    {
+                                        offsets: {
+                                            city: []
+                                        }
+                                    }
+                                );
                         }
                     },
 
@@ -81,9 +89,15 @@ function WeatherData(openWeatherMapApi, openWeatherMapJsonParser, LocaleWeather,
                                 console.log(response.data);
                                 var forecasts = response.data.list;
                                 angular.forEach(forecasts, function (forecast, idx) {
-                                    if (idx < 5) {
+                                    if (idx < 3) {
                                         console.log(idx);
                                         console.log(forecast);
+                                        console.log(openWeatherMapJsonParser.parseResponse(response.data, 
+                                            {
+                                                offsets: {
+                                                    city: { offset: ['city'] }
+                                                }
+                                            }));
                                     }
                                 });
                             }
@@ -109,7 +123,7 @@ function WeatherData(openWeatherMapApi, openWeatherMapJsonParser, LocaleWeather,
                                     var weatherReport = new LocaleWeather();
                                     weatherReport.Locale = locale;
                                     weatherReport.CurrentWeather = weather;
-                                    console.log('sfsdfsd');
+                                    console.log('current weather output');
                                     console.log(weather);
                                     return weatherReport;
                                 } else {                            
