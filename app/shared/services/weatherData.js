@@ -88,18 +88,33 @@ function WeatherData(openWeatherMapApi, openWeatherMapJsonParser, LocaleWeather,
                                 && response.data.list) {
                                 console.log(response.data);
                                 var forecasts = response.data.list;
+                                var next12Hours = [];
                                 angular.forEach(forecasts, function (forecast, idx) {
-                                    if (idx < 3) {
+                                    if (idx < 4) {
                                         console.log(idx);
                                         console.log(forecast);
-                                        console.log(openWeatherMapJsonParser.parseResponse(response.data, 
+                                        var x = openWeatherMapJsonParser.parseResponse(response.data,
                                             {
                                                 offsets: {
-                                                    city: { offset: ['city'] }
+                                                    city: ['city'],
+                                                    weather: ['list', idx, 'weather', 0],
+                                                    wind: ['list', idx, 'wind'],
+                                                    main: ['list', idx, 'main'],
+                                                    clouds: ['list', idx, 'clouds'],
+                                                    timestamp: ['list', idx],
+                                                    rain: ['list', idx, 'rain'],
+                                                    snow: ['list', idx, 'snow']
                                                 }
-                                            }));
+                                            });
+                                        console.log('done');
+                                        console.log(x);
+                                        this.push(x);
                                     }
-                                });
+                                }, next12Hours);
+                                
+                                return {
+                                    next12Hours: next12Hours
+                                };
                             }
                             return false;
                         }
@@ -144,17 +159,18 @@ function WeatherData(openWeatherMapApi, openWeatherMapJsonParser, LocaleWeather,
                         .getForecast(weatherReport.Locale)
                             .then(
                                 function (weather) {
-                                    if (weather) {
-                                        console.log('got forecast');
+                                    if (weather) {                                        
+                                        if (weather.next12Hours) {
+                                            weatherReport.ImmediateForecast = weather.next12Hours;
+                                        }
                                         return weatherReport;
                                     } else {
-                                        console.log('did nit get forecast');
-                                        console.log(weatherReport);
+                                        // We got something, so pass it along
                                         return weatherReport;
                                     }
                                 },
                                 function (error) {
-                                    console.log('forecast error');
+                                    // We got something, so pass it along
                                     return weatherReport;
                                 }
                             );

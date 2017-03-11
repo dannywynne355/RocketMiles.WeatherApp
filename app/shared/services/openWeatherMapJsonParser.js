@@ -7,14 +7,14 @@ angular.module('WeatherApp.services')
 function ownJsonParser(windDirection, weatherUnits, WeatherState) {
     return {
         getOffset: function (json, offset) {
-            console.log('getOffset');
-            console.log(offset);
+            // console.log('getOffset');
+            // console.log(offset);
             var currentParentNode = json;
             angular.forEach(offset, function (v) {
                 currentParentNode = currentParentNode[v];
             });
-            console.log(currentParentNode);
-            console.log('done with get offset');
+            // console.log(currentParentNode);
+            // console.log('done with get offset');
             return currentParentNode;
             
         },
@@ -63,7 +63,7 @@ function ownJsonParser(windDirection, weatherUnits, WeatherState) {
                 id: json.hasOwnProperty("id") ? json.id : false,
                 main: json.hasOwnProperty("main") ? json.main : false,
                 description: json.hasOwnProperty("description") ? json.description : false,
-                icon: json.hasOwnProperty("icon") ? json.icon : false
+                icon: json.hasOwnProperty("icon") ? ["http://openweathermap.org/img/w/", json.icon, ".png"].join("") : false
             }
         },
         parseWindProperty: function (json) {

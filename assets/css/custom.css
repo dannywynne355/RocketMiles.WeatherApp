@@ -56,3 +56,15 @@ button.btn-show-locations[aria-expanded="true"]{
     margin-top: 15px;
     margin-bottom: 15px;
 }
+
+@media all and (max-width: 768px) {
+    .next-12-hours .panel-body {
+        padding-left: 1px;
+        padding-right: 1px;
+    }
+
+    .next-12-hours .panel-body .temperature {
+        font-size: 12px;
+    }
+
+}
