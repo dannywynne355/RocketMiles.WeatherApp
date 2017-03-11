@@ -12,7 +12,7 @@ function appConfig($httpProvider) {
 }
 
 /* Tasks to execute on injector creation */
-function appRun($rootScope, $location, $timeout) {
+function appRun($rootScope, $location, $timeout) {    
     $rootScope.$on("$routeChangeStart", function (event, next, current) {
     
         var routeRequest = function () {

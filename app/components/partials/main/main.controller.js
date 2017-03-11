@@ -58,45 +58,22 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, geo
         weatherData.CurrentWeather.main.temperatureUnits = weatherUnits.getAbbreviation();
          weatherData.CurrentWeather.timestamp = 1435658272;        
         $scope.weatherData = weatherData;
-    });
-
+    });        
     
-    var modalInstance = $uibModal.open({
-        animation: $scope.animationsEnabled,
-        templateUrl: '/app/components/modals/current-location/current-location.view.html',
-        controller: 'CurrentLocationCtrl',
-        scope: $scope
-    });
-    
-
-    var getMostRecentEntry = function () {
-        mainSvc.getNewApi().then(
-            function (response) {
-                console.log(response);
-            },
-            function (response) {
-                console.log(response);
-            }
-            )
-        ;
-        mainSvc.getForecast()
-            .then(
-            function (response) {
-                if (!response.error) {
-                    $scope.lastLogEntry = response.data;
-                } else {
-                    $scope.lastLogEntry = 'Error: ' + response.error.message;
-                }
-            },
-            function (response) {
-                // Untrapped error case                        
-            }
-        );
-    };
-    // console.log(new google.maps.LatLng(42.1038846, -72.5868353).toUrlValue());
-
-    $scope.lastLogEntry = {}; // Do this to give it an initial value in case something wonky happens with fetching data
-    // getMostRecentEntry();
-
+    /* Check cookie for previous locations */
+    appCookie.load();
+    if (appCookie.locations == undefined
+        || appCookie.locations.length == 0) {
+        // Launch popup for current location
+        var modalInstance = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: '/app/components/modals/current-location/current-location.view.html',
+            controller: 'CurrentLocationCtrl',
+            scope: $scope
+        });
+    } else {
+        // Get first one - locations being appended to front, so this will be last stored one
+        $scope.$broadcast(broadcastEvents.setLocation.updateNotification, { locale: appCookie.locations[0] });
+    }
 }
 WeatherAppMain.$inject = ['$scope', '$uibModal', 'Locale', 'defaultLocale', 'appCookie', 'geolocationFinder', 'broadcastEvents', 'mainSvc', 'weatherUnits', 'WeatherState'];
