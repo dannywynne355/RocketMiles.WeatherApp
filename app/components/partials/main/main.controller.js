@@ -4,7 +4,7 @@ WeatherAppControllers.controller('MainController', WeatherAppMain);
 
 function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, broadcastEvents, weatherData, weatherUnits, WeatherState) {
     // Using this to toggle display of error conditions on load up.  Want to hide error screens when no data is available
-    $scope.initialized = false;
+    $scope.initialized = false;        
 
     $scope.$on(broadcastEvents.setLocation.useDefaultLocaleNotification, function (event, args) {
         console.log('Use default');
@@ -47,6 +47,7 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, bro
         console.log('Refresh data');
 
         // $scope.selectedLocale = args.locale;
+        getSelectedLocaleWeatherReport();
 
         $scope.initialized = true;
 
@@ -56,20 +57,34 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, bro
         }
     });
 
-    
-
-    $scope.$watch('selectedLocale', function () {
-        console.log($scope.selectedLocale);
+    // Gets the weather report (current, forecast) for the variable $scope.selectedLocale 
+    // NOTE: stored as function so that I can call it elsewhere to do refreshes
+    var getSelectedLocaleWeatherReport = function () {        
         if ($scope.selectedLocale) {
-            // 
-            weatherData.getWeather();
-            var wd = new LocaleWeather();
-            wd.Locale = new Locale(defaultLocale);
-            wd.CurrentWeather = new WeatherState();
-            wd.CurrentWeather.main.temperatureUnits = weatherUnits.getAbbreviation();
-            wd.CurrentWeather.timestamp = 1435658272;
-            $scope.weatherData = wd;
+            console.log('update to locale');
+            console.log($scope.selectedLocale);
+            weatherData
+                .getWeather($scope.selectedLocale)
+                .then(
+                    function (data) {
+                        console.log('here');
+                        console.log(data);
+                        $scope.weatherData = data;
+                    }
+                );            
+
+            var wd2 = new LocaleWeather();
+            wd2.Locale = new Locale(defaultLocale);
+            wd2.CurrentWeather = new WeatherState();
+            wd2.CurrentWeather.main.temperatureUnits = weatherUnits.getAbbreviation();
+            wd2.CurrentWeather.timestamp = 1435658272;
+            // $scope.weatherData = wd2;
         }
+    }
+
+    /* On changes to the selectedLocale variable, run the code to pull in its weather */
+    $scope.$watch('selectedLocale', function () {
+        getSelectedLocaleWeatherReport();
     });        
     
     /* Check cookie for previous locations */

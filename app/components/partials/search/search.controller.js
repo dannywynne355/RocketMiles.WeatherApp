@@ -19,6 +19,8 @@ function LocationSearch($scope) {
                         - FAIL
                             - NOT SURE
 
+
+            NEED TO PASS SOMETHING IN CALLBACK TO ADD LOCATION TO PREVIOUS LOCALE LIST IF ADDRESS IS LEGIT
         */
     };
 }

@@ -18,9 +18,10 @@ angular.module('WeatherApp.config')
     .constant('defaultLocale', {
         city: 'Chicago',        
         countryCode: 'US',
-        latitude: '41.883030',
-        longitude: '-87.644101',
+        // latitude: '41.883030', Hiding lat & long because api was not returning full weather
+        // longitude: '-87.644101',
         state: 'IL',        
-        zip: '60661'
+        zip: '60661',
+        cityId: '4887398' // Internal identifier for openweathermap api
     })
     

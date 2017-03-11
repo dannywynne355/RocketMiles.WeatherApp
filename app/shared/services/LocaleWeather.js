@@ -7,8 +7,12 @@ angular.module('WeatherApp.services')
 
 LocaleWeather.$inject = ['Locale'];
 
-function LocaleWeather(Locale) {    
-    var svc = {
+function LocaleWeather(Locale) {
+    function LocaleWeather() {
+        
+    };
+
+    LocaleWeather.prototype = {
         Locale: null,
         CurrentWeather: null,
         ImmediateForecast: null,
@@ -18,5 +22,5 @@ function LocaleWeather(Locale) {
     
 
 
-    return svc;
+    return LocaleWeather;
 }

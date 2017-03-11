@@ -25,27 +25,40 @@ function ApiBase($q, $http, apiCache, appEnvironment) {
     svc.prototype.makeRequest = function (config) {
         var deferred = $q.defer();
 
+        return $q.when(JSON.parse('{"data": {"coord":{"lon":-87.65,"lat":41.85},"weather":[{"id":800,"main":"Clear","description":"clear sky","icon":"01d"}],"base":"stations","main":{"temp":23.88,"pressure":1033,"humidity":35,"temp_min":21.2,"temp_max":26.6},"visibility":16093,"wind":{"speed":9.17,"deg":20},"clouds":{"all":1},"dt":1489250100,"sys":{"type":1,"id":1007,"message":0.3872,"country":"US","sunrise":1489234050,"sunset":1489276424},"id":4887398,"name":"Chicago","cod":200}}'));
+        // return $q.when(JSON.stringify('{data: {"coord":{"lon":-87.65,"lat":41.85},"weather":[{"id":800,"main":"Clear","description":"clear sky","icon":"01d"}],"base":"stations","main":{"temp":23.88,"pressure":1033,"humidity":35,"temp_min":21.2,"temp_max":26.6},"visibility":16093,"wind":{"speed":9.17,"deg":20},"clouds":{"all":1},"dt":1489250100,"sys":{"type":1,"id":1007,"message":0.3872,"country":"US","sunrise":1489234050,"sunset":1489276424},"id":4887398,"name":"Chicago","cod":200}}'));
+
+        console.log('hoper you are not here');
         // Run this first so that config properties are all fully set
         config = this.prepareConfig(config);
-
+                
         if (apiCache.enabled) {
             // Return the data if we already have it
-            var cacheId = config.url;
+            var cacheId = config.url;            
             var cachedData = apiCache.cache.get(cacheId);
             if (cachedData) {
-                success(cachedData);
-                return;
+                console.log('retrieving cached value');                
+                return $q.when(cachedData);
             }
         }
-
+        console.log(config.url);
         // Execute request and store it
         $http(config).then(
             function (response) {
-                deferred.resolve(response);
-                apiCache.cache.put(cacheId, deferred.resolve(response));
+                // Cache it only if there's a value
+                if (response.data != null
+                    && response.data) {                    
+                    apiCache.cache.put(cacheId, response);
+                }
+                deferred.resolve(response);                
             },
             function (response) {
-                deferred.resolve(response);
+                if (response.data != null
+                    && response.data) {                    
+                    deferred.resolve(svc.prototype.promiseErrorHandler(response));
+                } else {                    
+                    deferred.resolve(svc.prototype.trappedErrorHandler(response));
+                }                                
             }
         );
 
