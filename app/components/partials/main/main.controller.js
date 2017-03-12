@@ -64,12 +64,9 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, bro
                         console.log('weather report returned');
                         console.log(data);
                         $scope.weatherData = data;
-
                         $scope.initialized = true;
                     },
-                    function (error) {
-                        console.log('weather report error');
-                        console.log(error);
+                    function (error) {                        
                         $scope.initialized = true;
                     }
                 );            

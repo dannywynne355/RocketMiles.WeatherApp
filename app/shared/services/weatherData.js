@@ -133,7 +133,6 @@ function WeatherData(openWeatherMapApi, openWeatherMapApiSettings, openWeatherMa
                         if (response.error) {
                             return false;
                         } else {
-                            console.log(response);
                             if (response.data.cnt > 0
                                 && response.data.list) {                                
                                 var forecasts = response.data.list;
@@ -154,9 +153,7 @@ function WeatherData(openWeatherMapApi, openWeatherMapApiSettings, openWeatherMa
                                                     clouds: { all: "clouds" }
                                                 }
                                             });
-                                        // Special case for min and max temperature
-                                        console.log('secial');
-                                        console.log(dailyForecast);
+                                        // Special case for min and max temperature                                        
                                         dailyForecast.forecast.min = dailyForecast.main.temperature.hasOwnProperty("min") ? dailyForecast.main.temperature.min : false;
                                         dailyForecast.forecast.max = dailyForecast.main.temperature.hasOwnProperty("max") ? dailyForecast.main.temperature.max : false;
                                         this.push(dailyForecast);

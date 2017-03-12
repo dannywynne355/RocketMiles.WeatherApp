@@ -8,6 +8,10 @@ function AdminController($scope, broadcastEvents, appCookie) {
         // Request that the data if refreshed
         $scope.$emit(broadcastEvents.setLocation.refreshNotification);
     };
+
+    $scope.clearCookie = function () {        
+        appCookie.destroy();
+    };
 }
 
 AdminController.$inject = ['$scope', 'broadcastEvents', 'appCookie'];
