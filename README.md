@@ -35,7 +35,7 @@ Optionally, I have also set up a demo at http://the355group.com/dev/rocketmiles/
 
 ### App Features
 * Per the directions, the app will ask the first time if you wish to use your current geolocation.  If the user accepts, the app determines their geocoordinates and calls the api.  Otherwise the zip code 60661 is used.
-* The user can enter a zip code or city name in the search bar.  Any search that returns a valid weather report is then stored as a cookie.  
+* The user can enter a zip code or city name in the search bar.  Any location search that returns a valid weather report has the underlying location stored as a cookie.  
 * Previous searches are listed in the "View Locations" area at the bottom right.  They will be displayed in the order of most-recent first.  
 * The current geocoordinate location is always the first option in the "View Location" dropdown.  NOTE: The app only stores searched locations - views of the current geocoordinates or the default location (60661) are not stored unless searched for explicitly.
 * The weather report for a location consists of three entities: 
