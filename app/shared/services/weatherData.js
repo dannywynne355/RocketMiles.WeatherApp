@@ -153,7 +153,12 @@ function WeatherData(openWeatherMapApi, openWeatherMapApiSettings, openWeatherMa
                                                 fieldNameMap: {
                                                     clouds: { all: "clouds" }
                                                 }
-                                            });                                        
+                                            });
+                                        // Special case for min and max temperature
+                                        console.log('secial');
+                                        console.log(dailyForecast);
+                                        dailyForecast.forecast.min = dailyForecast.main.temperature.hasOwnProperty("min") ? dailyForecast.main.temperature.min : false;
+                                        dailyForecast.forecast.max = dailyForecast.main.temperature.hasOwnProperty("max") ? dailyForecast.main.temperature.max : false;
                                         this.push(dailyForecast);
                                     }
                                 }, nextSeveralDays);

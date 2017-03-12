@@ -35,6 +35,11 @@ function weatherState() {
             humidity: false,
             pressure: false
         },
+        forecast: {
+            min: false,
+            max: false,
+            temperatureUnits: false
+        },
         wind: {
             speed: false,
             deg: false,

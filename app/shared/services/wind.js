@@ -5,8 +5,7 @@ angular.module('WeatherApp.services')
     .factory("wind", windDirection);
 
 function windDirection(weatherUnits) {
-    this.getUnits = function () {
-        console.log(weatherUnits.get());
+    this.getUnits = function () {        
         if (weatherUnits.get().toLowerCase() == "imperial") {
             return "mph";
         } else {

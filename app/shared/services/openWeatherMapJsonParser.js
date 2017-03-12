@@ -52,7 +52,8 @@ function ownJsonParser(wind, weatherUnits, WeatherState) {
                     clouds: this.parseCloudsProperty(this.getOffset(json, args.offsets.clouds)),
                     timestamp: this.parseTimestampProperty(this.getOffset(json, args.offsets.timestamp)),
                     rain: json.hasOwnProperty('rain') ? this.parseRainProperty(this.getOffset(json, args.offsets.rain)) : false,
-                    snow: json.hasOwnProperty('snow') ? this.parseSnowProperty(this.getOffset(json, args.offsets.snow)) : false
+                    snow: json.hasOwnProperty('snow') ? this.parseSnowProperty(this.getOffset(json, args.offsets.snow)) : false,
+                    forecast: { temperatureUnits: weatherUnits.getAbbreviation() }
                 }                
             );
             

@@ -52,7 +52,7 @@
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-xs-12 text-center">
-                                                                <span ng-hide="!weatherData.CurrentWeather.main.temperature" class="temperature">{{ weatherData.CurrentWeather.main.temperature }}&deg; {{ weatherData.CurrentWeather.main.temperatureUnits }}</span>
+                                                                <span ng-hide="!weatherData.CurrentWeather.main.temperature" class="temperature">{{ weatherData.CurrentWeather.main.temperature  | number : 0 }}&deg; {{ weatherData.CurrentWeather.main.temperatureUnits }}</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -113,7 +113,7 @@
                                         <div class="col-xs-12 text-center"><img ng-hide="!forecast.weather.icon" src="{{ forecast.weather.icon }}" border="0" /><i ng-hide="forecast.weather.icon" class="fa fa-question" aria-hidden="true"></i></div>                                        
                                     </div>
                                     <div class="col-xs-12 text-center">
-                                        <span ng-hide="!forecast.main.temperature" class="temperature">{{forecast.main.temperature }}&deg; {{ forecast.main.temperatureUnits }}</span>                                        
+                                        <span ng-hide="!forecast.main.temperature" class="temperature">{{forecast.main.temperature | number : 0 }}&deg; {{ forecast.main.temperatureUnits }}</span>                                        
                                     </div>
                                 </div>
                             </div>
@@ -138,8 +138,8 @@
                     <div class="panel panel-default forecast-item">
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-xs-5"><span ng-hide="!forecast.timestamp" >{{ forecast.timestamp * 1000 | date:'shortTime' }}Fri<br />3/10</span></div>
-                                <div class="col-xs-4"><span class="forecast-temperature">29 | 16 F</span></div>                                
+                                <div class="col-xs-5"><span ng-hide="!forecast.timestamp" >{{ forecast.timestamp * 1000 | date:'EEE' }}<br />{{ forecast.timestamp * 1000 | date:'MMM d' }}</span></div>
+                                <div class="col-xs-4 forecast-temperature"><span class="forecast-high">{{ forecast.forecast.max  | number : 0 }}</span> | <span class="forecast-low">{{ forecast.forecast.min | number : 0 }}</span>&deg; {{ forecast.forecast.temperatureUnits }}</span></div>                                
                                 <div class="col-xs-3"><img ng-hide="!forecast.weather.icon" src="{{ forecast.weather.icon }}" border="0" /><i ng-hide="forecast.weather.icon" class="fa fa-question" aria-hidden="true"></i></div>                                        
                             </div>
                         </div>
