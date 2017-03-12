@@ -61,6 +61,11 @@ button.btn-show-locations[aria-expanded="true"]{
     margin-top: 7px;
 }
 
+/* Lessen spacing above the spinner text */
+weather-loading-indicator h3 {
+    margin-top: 17px;
+}
+
 @media all and (max-width: 768px) {
     /* For small device display, shrink the font size and panel so that temp fits nicely */
     .next-12-hours .panel-body {
@@ -71,5 +76,8 @@ button.btn-show-locations[aria-expanded="true"]{
         font-size: 12px;
     }
 
+    weather-loading-indicator h3 {
+        margin-top: 0px;
+    }
 }
 

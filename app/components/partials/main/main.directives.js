@@ -5,7 +5,7 @@ WeatherAppDirectives.directive('weatherLoadingIndicator', weatherLoadingIndicato
 function weatherLoadingIndicator() {
     return {
         restrict: 'E',
-        template: "<div class='col-lg-12' ng-if='isWeatherLoading'><h2>Wait for it... <i class='fa fa-cog fa-spin'></i></h2></div>",
+        template: "<div class='col-lg-12' ng-if='isWeatherLoading'><h3>Wait for it... <i class='fa fa-cog fa-spin'></i></h3></div>",
         link: function (scope, elem, attrs) {
             scope.isWeatherLoading = false;
 
