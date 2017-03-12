@@ -57,6 +57,10 @@ Optionally, I have also set up a demo at http://the355group.com/dev/rocketmiles/
 * I created a helper function to convert the wind expressed in polar coordinates from the Api to a more typical compass direction (e.g. NNE).
 * I created a json parser for the Api content because all three used mostly similar formats to deliver the data.  Instead of having 3 different reads, I wrote one parser and passed in offsets from the top node to tell the parser where to get the necessary data.
 * I made use or $broadcast and $emit to handle changes to the displayed weather report.  
+* I added several directives to assist with the search.  They provided functionality to:
+  1. Allow the form to be submitted by hitting the Enter key
+  2. Validating the search content.  Because it is one field that can be either a zip code or a city name, applying logic is a challenge.  I left it at being either a 5 digit number for a zip, or a string with no numbers to be a city.
+  3. I added a spinner via Font Awesome when performing the weather look-up on the Api. 
 * The app will use the city name as typed to perform its search, but the returned city info is used for display purposes.  This means you can type "las vegas" but the end result will be the far more eye-pleasing "Las Vegas".
 
 ## Limitations and Known Issues
