@@ -5,7 +5,7 @@
 angular.module('WeatherApp.services')
     .factory('weatherData', WeatherData);
 
-function WeatherData(openWeatherMapApi, openWeatherMapApiSettings, openWeatherMapJsonParser, LocaleWeather, WeatherState) {
+function WeatherData(openWeatherMapApi, openWeatherMapApiSettings, openWeatherMapJsonParser, Locale, LocaleWeather, WeatherState) {
     var svc = {};
 
     /* 
@@ -180,9 +180,20 @@ function WeatherData(openWeatherMapApi, openWeatherMapApiSettings, openWeatherMa
                     .getCurrentWeather(locale)
                         .then(
                             function (weather) {
-                                if (weather) {                        
+                                if (weather) {
+                                    console.log('checkign city');
+                                    console.log(weather);
+                                    
+                                    var returnedLocale = new Locale({
+                                        city: weather.city.name,
+                                        cityId: weather.city.id,
+                                        zip: weather.city.zip ? weather.city.zip : false,
+                                        latitude: weather.city.coord.latitude,
+                                        longitude: weather.city.coord.longitude,                          
+                                    });
+                                    
                                     var weatherReport = new LocaleWeather();
-                                    weatherReport.Locale = locale;
+                                    weatherReport.Locale = returnedLocale;
                                     weatherReport.CurrentWeather = weather;                                    
                                     return weatherReport;
                                 } else {                            
@@ -255,4 +266,4 @@ function WeatherData(openWeatherMapApi, openWeatherMapApiSettings, openWeatherMa
     return svc;
 }
 
-WeatherData.$inject = ['openWeatherMapApi', 'openWeatherMapApiSettings', 'openWeatherMapJsonParser', 'LocaleWeather', 'WeatherState'];
+WeatherData.$inject = ['openWeatherMapApi', 'openWeatherMapApiSettings', 'openWeatherMapJsonParser', 'Locale', 'LocaleWeather', 'WeatherState'];
