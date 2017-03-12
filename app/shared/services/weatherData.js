@@ -10,18 +10,18 @@ function WeatherData(openWeatherMapApi, openWeatherMapApiSettings, openWeatherMa
 
     /* 
     Get the type of query based on locale data.
-    Go in order of accuracy 1) geolocation, 2) existing city id,
+    Go in order of accuracy 1) existing city id, 2) geolocation - api gets a bit zany with these
     3) zip code, 4) city name
     */
     svc.getSearchType = function (locale) {
         if (locale == undefined) {
             return false;
         }
-        
-        if (locale.latitude && locale.longitude) {
-            return "byGeolocation";
-        } else if (locale.cityId) {
+
+        if (locale.cityId) {
             return "byCityId";
+        } else if (locale.latitude && locale.longitude) {
+            return "byGeolocation";
         } else if (locale.zip) {
             return "byZip";
         } else if (locale.city) {

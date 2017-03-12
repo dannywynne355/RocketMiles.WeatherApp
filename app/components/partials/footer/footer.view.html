@@ -10,7 +10,7 @@
                         <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">
                             <li role="menuitem"><a ng-click="setKnownLocale(currentGeoLocale)"><i ng-show="currentGeoLocale.localeType == 'geolocation'" class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;{{ currentGeoLocale.city }}, {{ currentGeoLocale.region }} ({{ currentGeoLocale.zip }})</a></li>
                             <li class="divider"></li>
-                            <li role="menuitem" ng-repeat="previousLocale in previousLocales"><a ng-click="setKnownLocale(location)">{{ previousLocale.city }}{{ previousLocale.region ? ", " + previousLocale.region : ""  }}{{ previousLocale.zip ? " (" + previousLocale.zip  + ")" : "" }}</a></li>
+                            <li role="menuitem" ng-repeat="previousLocale in previousLocales"><a ng-click="setKnownLocale(previousLocale)">{{ previousLocale.city }}{{ previousLocale.region ? ", " + previousLocale.region : ""  }}{{ previousLocale.zip ? " (" + previousLocale.zip  + ")" : "" }}</a></li>
                         </ul>
                     </div>
                 </div> <!-- .col-xs-6 -->

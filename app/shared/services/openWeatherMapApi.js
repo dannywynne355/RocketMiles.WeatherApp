@@ -5,10 +5,10 @@
 angular.module('WeatherApp.services')
     .factory('openWeatherMapApi', OpenWeatherMapApi);
 
-function OpenWeatherMapApi(apiBase, openWeatherMapApiSettings, defaultLocale, weatherUnits, $q) {
+function OpenWeatherMapApi(apiBase, openWeatherMapApiSettings, defaultLocale, weatherUnits, $q) {    
     var child = function () {
         apiBase.apply(this, arguments);
-    };
+    };    
 
     /* Create a String.format() statement - can pass comma-delimited string or a simple array */
     String.prototype.format = function () {
@@ -41,26 +41,26 @@ function OpenWeatherMapApi(apiBase, openWeatherMapApiSettings, defaultLocale, we
 
     /* Replaces string placeholders with parameter data */
     child.prototype.setUrlParameterValues = function (config) {
+        var finalUrl = config.url;
         if (config.parameters
             && config.parameters.length > 0) {
-            var paramValues = [];
-            var requestConfig = this.resource().config[this.environment.name];            
-            var currentLocale = config.locale ? config.locale : defaultLocale;
-            console.log('setparam');
-            console.log(currentLocale);
+            var paramValues =[];
+            var requestConfig = this.resource().config[this.environment.name];
+            var paramLocale = config.locale ? config.locale: defaultLocale;
+            var paramWeatherUnits = weatherUnits.get();
             angular.forEach(config.parameters, function (param, idx) {
                 if (param == "token") {
                     this.push(requestConfig.credentials.token);
-                } else if (param == "units") {                    
-                    this.push(weatherUnits.get());
-                } else {                    
-                    this.push(currentLocale[param]);
-                }                
+                } else if (param == "units") {
+                    this.push(paramWeatherUnits);
+                } else {
+                    this.push(paramLocale[param]);
+                }
             }, paramValues);
-            config.url = config.url.format(paramValues);
+            finalUrl = finalUrl.format(paramValues);
         }
 
-        return config.url;
+        return finalUrl;
     }
 
     /* Appends the root depending on the environment of the site */
@@ -73,9 +73,8 @@ function OpenWeatherMapApi(apiBase, openWeatherMapApiSettings, defaultLocale, we
     };
 
     /*
-    // For debug purposes
-    child.prototype.makeRequest = function (config) {
-        console.log('override');
+    // For debug purposes        
+    child.prototype.makeRequest = function (config) {        
         var deferred = $q.defer();
         
         if (config.url.indexOf('weather?') > -1) {
@@ -86,7 +85,8 @@ function OpenWeatherMapApi(apiBase, openWeatherMapApiSettings, defaultLocale, we
         } else {
             return $q.when(JSON.parse('{"data": {"city":{"id":4887398,"name":"Chicago","coord":{"lon":-87.650047,"lat":41.850029},"country":"US","population":0},"cod":"200","message":0.0137,"cnt":7,"list":[{"dt":1489255200,"temp":{"day":28.24,"min":16.47,"max":28.24,"night":16.47,"eve":24.28,"morn":28.24},"pressure":1016.86,"humidity":53,"weather":[{"id":800,"main":"Clear","description":"clear sky","icon":"01d"}],"speed":10.22,"deg":325,"clouds":0},{"dt":1489341600,"temp":{"day":29.23,"min":9.16,"max":31.06,"night":25.41,"eve":29.05,"morn":9.16},"pressure":1015.71,"humidity":63,"weather":[{"id":601,"main":"Snow","description":"snow","icon":"13d"}],"speed":4.29,"deg":300,"clouds":24,"snow":1.69},{"dt":1489428000,"temp":{"day":31.87,"min":26.47,"max":32.58,"night":28.98,"eve":30.79,"morn":26.47},"pressure":1001.54,"humidity":87,"weather":[{"id":601,"main":"Snow","description":"snow","icon":"13d"}],"speed":11.1,"deg":107,"clouds":92,"snow":7.17},{"dt":1489514400,"temp":{"day":28.99,"min":24.19,"max":28.99,"night":25.12,"eve":28.87,"morn":24.19},"pressure":1008.97,"humidity":0,"weather":[{"id":601,"main":"Snow","description":"snow","icon":"13d"}],"speed":3.8,"deg":188,"clouds":94,"snow":2.29},{"dt":1489600800,"temp":{"day":29.8,"min":19.24,"max":29.8,"night":26.49,"eve":27.39,"morn":19.24},"pressure":1020.16,"humidity":0,"weather":[{"id":600,"main":"Snow","description":"light snow","icon":"13d"}],"speed":8.28,"deg":334,"clouds":1,"snow":0.69},{"dt":1489687200,"temp":{"day":32.94,"min":26.8,"max":34.23,"night":29.28,"eve":34.23,"morn":26.8},"pressure":1011.94,"humidity":0,"weather":[{"id":600,"main":"Snow","description":"light snow","icon":"13d"}],"speed":12.35,"deg":198,"clouds":94,"snow":0.32},{"dt":1489770000,"temp":{"day":37.38,"min":31.46,"max":40.75,"night":34.63,"eve":40.75,"morn":31.46},"pressure":1002.32,"humidity":0,"weather":[{"id":800,"main":"Clear","description":"clear sky","icon":"01d"}],"speed":18.01,"deg":148,"clouds":100,"rain":4.31}]}}'));
         }
-    }
+        
+    }    
     */
 
     return child;

@@ -22,18 +22,21 @@ function ApiBase($http, $q, apiCache, appEnvironment) {
     }
 
     /* Returns a promise for an api request */
-    svc.prototype.makeRequest = function (config) {
+    svc.prototype.makeRequest = function (c) {
         var deferred = $q.defer(); // Need deferred logic to handle case where there is a cache match.  $http already returns a promise
+
+        // I've got a config overwrite happening in here that is replacing the url.  Just copy it on creation.
+        var config = angular.copy(c);
 
         // Run this first so that config properties are all fully set
         config = this.prepareConfig(config);
-                
+
         if (apiCache.enabled) {
             // Return the data if we already have it
-            var cacheId = config.url;            
+            var cacheId = config.url;
             var cachedData = apiCache.cache.get(cacheId);
             if (cachedData) {
-                console.log('retrieving cached value');                
+                console.log('retrieving cached value for ' + cacheId);
                 return $q.when(cachedData);
             }
         }
@@ -44,23 +47,25 @@ function ApiBase($http, $q, apiCache, appEnvironment) {
             function (response) {
                 // Cache it only if there's a value
                 if (response.data != null
-                    && response.data) {                    
-                    apiCache.cache.put(cacheId, response);
+                    && response.data) {
+                        apiCache.cache.put(cacheId, response);
                 }
-                deferred.resolve(response);                
+
+                deferred.resolve(response);
             },
             function (response) {
                 if (response.data != null
-                    && response.data) {                    
+                    && response.data) {
                     deferred.resolve(svc.prototype.promiseErrorHandler(response));
-                } else {                    
+                } else {
                     deferred.resolve(svc.prototype.trappedErrorHandler(response));
-                }                                
+                }
             }
         );
 
         return deferred.promise;
     }
+
 
     /*
     Formats the response of a promise
