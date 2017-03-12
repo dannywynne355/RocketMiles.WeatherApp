@@ -4,44 +4,33 @@ WeatherAppControllers.controller('SearchCtrl', LocationSearch);
 
 function LocationSearch($scope, Locale, broadcastEvents) {
     // Init    
-    $scope.searchData = {};
-    $scope.query = "";
+    $scope.searchData = {};    
 
-    $scope.searchForLocation = function () {
+    $scope.searchForLocation = function (form) {
         // Error checking: if numbers, make sure it is 5
-
+        
         var callback = function (args) {
             console.log("Do stuff after trying to query address");
 
+            // Clear the search form
             $scope.searchData = {};
-            $scope.search.$setUntouched();
-            $scope.search.$setPristine();
+            form.$setUntouched();
+            form.$setPristine();
         };
-
-        console.log($scope);
-        if ($scope.search.$valid) {
+        
+        if (form.$valid) {
             var locale = new Locale();
             var searchStim = ($scope.searchData.query || "").trim();
-            console.log(searchStim);
+
             if (/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(searchStim)) {
-                console.log('in zip');
                 locale.zip = searchStim.trim();
-            } else if (/^[A-Za-z]+$/.test(searchStim)) {
-                console.log('in city');
+            } else if (/^[A-Za-z]+$/.test(searchStim)) {                
                 locale.city = searchStim.trim();
-            } else {
-                // $scope.searchData.query.$error.whatareyou = "xyz";
             }
 
-
-            if (true) {
-                locale.zip = $scope.query;
-            }
+            $scope.$emit(broadcastEvents.setLocation.updateNotification, { locale: locale, callback: callback });
         }
-
-        // if (responseLocale) {                                        
-            // Got a location - use it!
-           // $scope.$emit(broadcastEvents.setLocation.updateNotification, { locale: responseLocale, callback: callback });
+        
 
         /*
             
