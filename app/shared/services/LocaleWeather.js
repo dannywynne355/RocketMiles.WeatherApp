@@ -16,7 +16,7 @@ function LocaleWeather(Locale) {
         Locale: null,
         CurrentWeather: null,
         ImmediateForecast: null,
-        Forecast: null
+        DailyForecast: null
     };
 
     

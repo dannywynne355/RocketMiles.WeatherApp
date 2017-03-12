@@ -73,7 +73,7 @@
                                                     <div class="col-xs-12">
                                                         <h4>Details</h4>
                                                         <span ng-hide="!weatherData.CurrentWeather.main.humidity" class="detail">Humidity: {{ weatherData.CurrentWeather.main.humidity }}%<br /></span>
-                                                        <span ng-hide="!weatherData.CurrentWeather.wind.speed">Wind: {{ weatherData.CurrentWeather.wind.direction }} {{ weatherData.CurrentWeather.wind.speed }} mph<br /></span>
+                                                        <span ng-hide="!weatherData.CurrentWeather.wind.speed">Wind: {{ weatherData.CurrentWeather.wind.direction }} {{ weatherData.CurrentWeather.wind.speed }} {{ weatherData.CurrentWeather.wind.speedUnits }}<br /></span>
                                                         <span ng-hide="!weatherData.CurrentWeather.clouds" class="detail">Cloudiness: {{ weatherData.CurrentWeather.clouds }}%<br /></span>
                                                         <span ng-hide="!weatherData.CurrentWeather.rain" class="detail">Rain (Last 3 Hours): {{ weatherData.CurrentWeather.rain }}<br /></span>
                                                         <span ng-hide="!weatherData.CurrentWeather.snow" class="detail">Snow (Last 3 Hours): {{ weatherData.CurrentWeather.snow }}<br /></span>
@@ -128,12 +128,12 @@
                     <h4>Forecast</h4>
                 </div>
             </div>
-            <div ng-show="weatherData.Forecast == null" class="row">
+            <div ng-show="weatherData.DailyForecast == null" class="row">
                 <div class="col-xs-12">
                     <div class="alert alert-warning text-center">The forecast is currently unavailable.</div>
                 </div>
             </div>
-            <div ng-show="weatherData.Forecast != null" ng-repeat="forecast in weatherData.Forecast" class="row">
+            <div ng-show="weatherData.DailyForecast != null" ng-repeat="forecast in weatherData.DailyForecast" class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default forecast-item">
                         <div class="panel-body">

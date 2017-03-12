@@ -4,7 +4,7 @@
 angular.module('WeatherApp.services')
     .factory('openWeatherMapJsonParser', ownJsonParser);
 
-function ownJsonParser(windDirection, weatherUnits, WeatherState) {
+function ownJsonParser(wind, weatherUnits, WeatherState) {
     return {
         getOffset: function (json, offset) {
             // console.log('getOffset');
@@ -70,7 +70,8 @@ function ownJsonParser(windDirection, weatherUnits, WeatherState) {
             return json == undefined ? {} : {
                 speed: json.hasOwnProperty("speed") ? json.speed : false,
                 deg: json.hasOwnProperty("deg") ? json.deg : false,
-                direction: json.hasOwnProperty("deg") ? windDirection.get(json.deg) : false
+                direction: json.hasOwnProperty("deg") ? wind.getDirection(json.deg) : false,
+                speedUnits: json.hasOwnProperty("speed") ? wind.getUnits() : false
             }
         },
         parseMainProperty: function (json) {            
@@ -107,4 +108,4 @@ function ownJsonParser(windDirection, weatherUnits, WeatherState) {
     };
 }
 
-ownJsonParser.$inject = ['windDirection', 'weatherUnits', 'WeatherState'];
+ownJsonParser.$inject = ['wind', 'weatherUnits', 'WeatherState'];

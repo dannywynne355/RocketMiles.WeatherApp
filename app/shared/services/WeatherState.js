@@ -38,7 +38,8 @@ function weatherState() {
         wind: {
             speed: false,
             deg: false,
-            direction: false
+            direction: false,
+            speedUnits: false
         },
         clouds: false,
         rain: false,

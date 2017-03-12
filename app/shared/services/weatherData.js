@@ -5,7 +5,7 @@
 angular.module('WeatherApp.services')
     .factory('weatherData', WeatherData);
 
-function WeatherData(openWeatherMapApi, openWeatherMapJsonParser, LocaleWeather, WeatherState) {
+function WeatherData(openWeatherMapApi, openWeatherMapApiSettings, openWeatherMapJsonParser, LocaleWeather, WeatherState) {
     var svc = {};
 
     /* 
@@ -70,9 +70,9 @@ function WeatherData(openWeatherMapApi, openWeatherMapJsonParser, LocaleWeather,
     };
 
     /*
-        Gets the forecast for the supplied locale.
+        Gets the upcoming forecast in 3 hour increments for the supplied locale.
     */
-    svc.getForecast = function (locale) {
+    svc.getImmediateForecast = function (locale) {
         var api = new openWeatherMapApi();
         var queryType = this.getSearchType(locale);
         if (queryType) {
@@ -85,15 +85,14 @@ function WeatherData(openWeatherMapApi, openWeatherMapJsonParser, LocaleWeather,
                             return false;
                         } else {
                             if (response.data.cnt > 0
-                                && response.data.list) {
-                                console.log(response.data);
+                                && response.data.list) {                                
                                 var forecasts = response.data.list;
                                 var next12Hours = [];
                                 angular.forEach(forecasts, function (forecast, idx) {
                                     if (idx < 4) {
-                                        console.log(idx);
-                                        console.log(forecast);
-                                        var x = openWeatherMapJsonParser.parseResponse(response.data,
+                                        // console.log(idx);
+                                        // console.log(forecast);
+                                        var currentForecast = openWeatherMapJsonParser.parseResponse(response.data,
                                             {
                                                 offsets: {
                                                     city: ['city'],
@@ -105,16 +104,12 @@ function WeatherData(openWeatherMapApi, openWeatherMapJsonParser, LocaleWeather,
                                                     rain: ['list', idx, 'rain'],
                                                     snow: ['list', idx, 'snow']
                                                 }
-                                            });
-                                        console.log('done');
-                                        console.log(x);
-                                        this.push(x);
+                                            });                                        
+                                        this.push(currentForecast);
                                     }
                                 }, next12Hours);
                                 
-                                return {
-                                    next12Hours: next12Hours
-                                };
+                                return next12Hours;
                             }
                             return false;
                         }
@@ -124,6 +119,55 @@ function WeatherData(openWeatherMapApi, openWeatherMapJsonParser, LocaleWeather,
                     }
                 );
         }        
+    }
+
+    svc.getExtendedForecast = function (locale) {
+        var api = new openWeatherMapApi();
+        var queryType = this.getSearchType(locale);
+        if (queryType) {
+            var config = api.resource().endpoints.extendedForecast[queryType];
+            return api
+                .makeRequest(config)
+                .then(
+                    function (response) {
+                        if (response.error) {
+                            return false;
+                        } else {
+                            console.log(response);
+                            if (response.data.cnt > 0
+                                && response.data.list) {                                
+                                var forecasts = response.data.list;
+                                var nextSeveralDays = [];
+                                angular.forEach(forecasts, function (forecast, idx) {                                    
+                                    if (idx < Math.min(7, openWeatherMapApiSettings.config.settings.extendedForecast.maxNumberOfDays)) {
+                                        var dailyForecast = openWeatherMapJsonParser.parseResponse(response.data,
+                                            {
+                                                offsets: {
+                                                    city: ['city'],
+                                                    weather: ['list', idx, 'weather', 0],
+                                                    wind: ['list', idx],
+                                                    main: ['list', idx],
+                                                    clouds: ['list', idx, 'clouds'],
+                                                    timestamp: ['list', idx]
+                                                },
+                                                fieldNameMap: {
+                                                    clouds: { all: "clouds" }
+                                                }
+                                            });                                        
+                                        this.push(dailyForecast);
+                                    }
+                                }, nextSeveralDays);
+                                return nextSeveralDays;
+                            }
+
+                            return false;                            
+                        }
+                    }, function (response) {
+                        // There was an error - return nothing
+                        return false;
+                    }
+                );
+        }
     }
 
     svc.getWeather = function (locale) {
@@ -137,9 +181,7 @@ function WeatherData(openWeatherMapApi, openWeatherMapJsonParser, LocaleWeather,
                                 if (weather) {                        
                                     var weatherReport = new LocaleWeather();
                                     weatherReport.Locale = locale;
-                                    weatherReport.CurrentWeather = weather;
-                                    console.log('current weather output');
-                                    console.log(weather);
+                                    weatherReport.CurrentWeather = weather;                                    
                                     return weatherReport;
                                 } else {                            
                                     return false;
@@ -151,18 +193,41 @@ function WeatherData(openWeatherMapApi, openWeatherMapJsonParser, LocaleWeather,
                             }
                         )
         },
-        loadForecast = function (weatherReport) {
-            // Fetches the forecast.  Assumes locale defined in weatherReport.Locale.
+        loadImmediateForecast = function (weatherReport) {
+            // Fetches the forecast in 3 hour chunks.  Assumes locale defined in weatherReport.Locale.
             // NOTE: weatherReport can be false
             if (weatherReport) {
                 return svc
-                        .getForecast(weatherReport.Locale)
+                        .getImmediateForecast(weatherReport.Locale)
                             .then(
-                                function (weather) {
-                                    if (weather) {                                        
-                                        if (weather.next12Hours) {
-                                            weatherReport.ImmediateForecast = weather.next12Hours;
-                                        }
+                                function (immediateForecast) {
+                                    if (immediateForecast) {
+                                        weatherReport.ImmediateForecast = immediateForecast;
+                                        return weatherReport;
+                                    } else {
+                                        // We got something, so pass it along
+                                        return weatherReport;
+                                    }
+                                },
+                                function (error) {
+                                    // We got something, so pass it along
+                                    return weatherReport;
+                                }
+                            );
+            } else {
+                return false;
+            }
+        },
+        loadExtendedForecast = function (weatherReport) {
+            // Fetches the daily forecast.  Assumes locale defined in weatherReport.Locale.
+            // NOTE: weatherReport can be false
+            if (weatherReport) {
+                return svc
+                        .getExtendedForecast(weatherReport.Locale)
+                            .then(
+                                function (extendedForecast) {
+                                    if (extendedForecast) {                                        
+                                        weatherReport.DailyForecast = extendedForecast;                                        
                                         return weatherReport;
                                     } else {
                                         // We got something, so pass it along
@@ -181,10 +246,11 @@ function WeatherData(openWeatherMapApi, openWeatherMapJsonParser, LocaleWeather,
 
         // Main call
         return loadCurrentWeather(locale)
-            .then(loadForecast);
+            .then(loadImmediateForecast)
+            .then(loadExtendedForecast);
     };
 
     return svc;
 }
 
-WeatherData.$inject = ['openWeatherMapApi', 'openWeatherMapJsonParser', 'LocaleWeather', 'WeatherState'];
+WeatherData.$inject = ['openWeatherMapApi', 'openWeatherMapApiSettings', 'openWeatherMapJsonParser', 'LocaleWeather', 'WeatherState'];

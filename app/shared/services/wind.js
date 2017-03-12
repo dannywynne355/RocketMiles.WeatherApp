@@ -2,12 +2,19 @@
     Converts the wind direction in polar coordinates to a standard navigational direction
 */
 angular.module('WeatherApp.services')
-    .factory("windDirection", windDirection);
+    .factory("wind", windDirection);
 
-windDirection.$inject = [];
+function windDirection(weatherUnits) {
+    this.getUnits = function () {
+        console.log(weatherUnits.get());
+        if (weatherUnits.get().toLowerCase() == "imperial") {
+            return "mph";
+        } else {
+            return "m/s";
+        }
+    };
 
-function windDirection() {
-    this.get = function (degrees) {
+    this.getDirection = function (degrees) {
         if (degrees >= 348.75
             || degrees < 11.25) {
             return "N";
@@ -61,3 +68,5 @@ function windDirection() {
    
     return this;
 }
+
+windDirection.$inject = ['weatherUnits'];
