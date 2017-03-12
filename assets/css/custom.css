@@ -56,6 +56,11 @@ button.btn-show-locations[aria-expanded="true"]{
     margin-bottom: 15px;
 }
 
+/* Add a touch of spacing for displayed error message */
+.search-error {
+    margin-top: 7px;
+}
+
 @media all and (max-width: 768px) {
     /* For small device display, shrink the font size and panel so that temp fits nicely */
     .next-12-hours .panel-body {
@@ -67,3 +72,4 @@ button.btn-show-locations[aria-expanded="true"]{
     }
 
 }
+

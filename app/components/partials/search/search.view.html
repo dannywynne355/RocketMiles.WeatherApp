@@ -3,5 +3,5 @@
         <span class="input-group-addon"><i class="fa fa-search aria-hidden="true"></i></span>
         <input is-valid-search-input class="form-control" name="query" ng-model="searchData.query" type="text" placeholder="Enter a zip code or city">        
     </div>
-    <span class="alert alert-danger" ng-show="search.$submitted && search.query.$error.isValidSearchInput">Invalid search value - zip codes should be 5 digits and cities cannot contain numbers</span>    
+    <div class="search-error alert alert-danger" ng-show="search.$submitted && search.query.$error.isValidSearchInput">Invalid search value - zip codes should be 5 digits and cities cannot contain numbers</div>    
 </form>
