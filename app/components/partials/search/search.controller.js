@@ -18,13 +18,15 @@ function LocationSearch($scope, Locale, localeType, broadcastEvents) {
         
         if (form.$valid) {
             var locale = new Locale();
-            locale.localeType = localeType.userAdded;
+            locale.localeType = localeType.userAdded;            
             // Get search val - if numeric assume it is a zip, otherwise a city name
             // Directives handle most of error checking, but adding some here as well
             var searchStim = ($scope.searchData.query || "").trim();
+            
             if (/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(searchStim)) {
                 locale.zip = searchStim.trim();
-            } else if (/^[A-Za-z]+$/.test(searchStim)) {                
+                //} else if (/^[A-Za-z]+$/.test(searchStim)) {                
+            } else if (/^([^0-9]*)$/.test(searchStim)) {
                 locale.city = searchStim.trim();
             }
 

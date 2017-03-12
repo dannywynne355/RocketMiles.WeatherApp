@@ -72,7 +72,7 @@ function OpenWeatherMapApi(apiBase, openWeatherMapApiSettings, defaultLocale, we
         return this.resource().config[this.environment.name].urlRoot + url;
     };
 
-    /*
+    
     // For debug purposes        
     child.prototype.makeRequest = function (config) {        
         var deferred = $q.defer();
@@ -87,7 +87,7 @@ function OpenWeatherMapApi(apiBase, openWeatherMapApiSettings, defaultLocale, we
         }
         
     }    
-    */
+    
 
     return child;
 }

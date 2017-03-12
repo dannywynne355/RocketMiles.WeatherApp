@@ -9,7 +9,7 @@
             
         </div> <!-- .col-md-12 -->
     </div> <!-- .row -->    
-    <div ng-show="initialized && onLoadWeatherError && (weatherData == null || (weatherData.Locale == null && weatherData.CurrentWeather == null))" class="row">
+    <div ng-show="initialized && onLoadWeatherError" class="row">
         <div class="col-xs-12">
             <div class="alert alert-danger">
                 <div class="row">
@@ -37,6 +37,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-xs-12">
+                                    <weather-loading-indicator />                                    
                                     <div class="jumbotron current-conditions">
                                         <div class="row">
                                             <div class="col-sm-7 col-xs-12">

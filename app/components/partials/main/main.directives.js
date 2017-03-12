@@ -1,25 +1,23 @@
-﻿/*
+﻿
 var WeatherAppDirectives = angular.module('WeatherApp.directives');
 
- WeatherAppDirectives.directive('routeLoadingIndicator', routeLoadingIndicator);
-
-var routeLoadingIndicator = function ($rootScope) {
+WeatherAppDirectives.directive('weatherLoadingIndicator', weatherLoadingIndicator);
+function weatherLoadingIndicator() {
     return {
         restrict: 'E',
-        template: "<div class='col-lg-12' ng-if='isWeatherLoading'><h1>Loading <i class='fa fa-cog fa-spin'></i></h1></div>",
+        template: "<div class='col-lg-12' ng-if='isWeatherLoading'><h2>Wait for it... <i class='fa fa-cog fa-spin'></i></h2></div>",
         link: function (scope, elem, attrs) {
             scope.isWeatherLoading = false;
 
-            $rootScope.$on('$routeChangeStart', function () {
+            scope.$on('$selectedLocaleStart', function () {                
                 scope.isWeatherLoading = true;
             });
 
-            $rootScope.$on('$routeChangeSuccess', function () {
+            scope.$on('$selectedLocaleSuccess', function () {                
                 scope.isWeatherLoading = false;
             });
         }
     };
-};
+}
 
-routeLoadingIndicator.$inject = ['$rootScope'];
-*/
+weatherLoadingIndicator.$inject = [];

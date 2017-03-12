@@ -5,7 +5,7 @@
 angular.module('WeatherApp.services')
     .factory('weatherData', WeatherData);
 
-function WeatherData(openWeatherMapApi, openWeatherMapApiSettings, openWeatherMapJsonParser, Locale, localeType, LocaleWeather, WeatherState) {
+function WeatherData($q, openWeatherMapApi, openWeatherMapApiSettings, openWeatherMapJsonParser, Locale, localeType, LocaleWeather, WeatherState) {
     var svc = {};
 
     /* 
@@ -42,7 +42,7 @@ function WeatherData(openWeatherMapApi, openWeatherMapApiSettings, openWeatherMa
         var queryType = this.getSearchType(locale);
         if (queryType) {
             var config = api.resource().endpoints.currentWeather[queryType];
-            config.locale = locale;
+            config.locale = locale;            
             return api
                 .makeRequest(config)
                 .then(
@@ -67,6 +67,8 @@ function WeatherData(openWeatherMapApi, openWeatherMapApiSettings, openWeatherMa
                         return false;
                     }
                 );
+        } else {
+            return $q.reject({ error: true, data: { status: 400, message: "Unable to determine location information" }});
         }
     };
 
@@ -183,10 +185,7 @@ function WeatherData(openWeatherMapApi, openWeatherMapApiSettings, openWeatherMa
                     .getCurrentWeather(locale)
                         .then(
                             function (weather) {
-                                if (weather) {
-                                    console.log('checkign city');
-                                    console.log(locale);
-                                    
+                                if (weather) {                                    
                                     var returnedLocale = new Locale({
                                         localeType: locale.localeType,
                                         city: weather.city.name,
@@ -205,8 +204,8 @@ function WeatherData(openWeatherMapApi, openWeatherMapApiSettings, openWeatherMa
                                 }
                             },
                             function (response) {
-                                // Error condition
-                                return false;
+                                // Error condition                                
+                                return $q.reject(response);
                             }
                         )
         },
@@ -270,4 +269,4 @@ function WeatherData(openWeatherMapApi, openWeatherMapApiSettings, openWeatherMa
     return svc;
 }
 
-WeatherData.$inject = ['openWeatherMapApi', 'openWeatherMapApiSettings', 'openWeatherMapJsonParser', 'Locale', 'localeType', 'LocaleWeather', 'WeatherState'];
+WeatherData.$inject = ['$q', 'openWeatherMapApi', 'openWeatherMapApiSettings', 'openWeatherMapJsonParser', 'Locale', 'localeType', 'LocaleWeather', 'WeatherState'];

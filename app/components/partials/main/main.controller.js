@@ -4,7 +4,9 @@ WeatherAppControllers.controller('MainController', WeatherAppMain);
 
 function WeatherAppMain($scope, $uibModal, Locale, localeType, defaultLocale, appCookie, broadcastEvents, weatherData) {
     // Using this to toggle display of error conditions on load up.  Want to hide error screens when no data is available
-    $scope.initialized = false;        
+    $scope.initialized = false;
+
+    // Denotes whether a truly fatal error occured
     $scope.onLoadWeatherError = false;
 
     $scope.$on(broadcastEvents.setLocation.useDefaultLocaleNotification, function (event, args) {
@@ -57,8 +59,21 @@ function WeatherAppMain($scope, $uibModal, Locale, localeType, defaultLocale, ap
     // NOTE: stored as function so that I can call it elsewhere to do refreshes
     var getSelectedLocaleWeatherReport = function () {        
         if ($scope.selectedLocale) {
-            console.log('update to locale');
-            $scope.onLoadWeatherError = false; // reset
+            console.log('update to locale=');
+            console.log($scope.selectedLocale);
+            $scope.onLoadWeatherError = false; // reset            
+            $scope.$broadcast('$selectedLocaleStart', $scope.selectedLocale);
+
+            var noWeatherFound = function () {
+                // Indicate that we had an issue
+                $scope.onLoadWeatherError = true;
+                // Clear any previous data
+                $scope.weatherData = false;
+                // Turns off spinner
+                $scope.$broadcast('$selectedLocaleSuccess', $scope.selectedLocale);
+            };
+
+            // Go get the weather data!
             weatherData
                 .getWeather($scope.selectedLocale)
                 .then(
@@ -69,10 +84,11 @@ function WeatherAppMain($scope, $uibModal, Locale, localeType, defaultLocale, ap
                             $scope.weatherData = data;                            
                             return data.Locale;
                         } else {                            
-                            return false;
+                            noWeatherFound();
                         }
                     }, function (data) {
-                        $scope.onLoadWeatherError = true;
+                        // Error case 
+                        noWeatherFound();
                         return false;
                     }
                 )
@@ -94,6 +110,9 @@ function WeatherAppMain($scope, $uibModal, Locale, localeType, defaultLocale, ap
                     }
 
                     $scope.initialized = true;
+                    
+                    // Turns off spinner
+                    $scope.$broadcast('$selectedLocaleSuccess', $scope.selectedLocale);
                 })
             ;
         }

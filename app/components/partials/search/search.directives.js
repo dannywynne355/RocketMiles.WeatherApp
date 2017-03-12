@@ -31,9 +31,9 @@ WeatherAppDirectives.directive('isValidSearchInput', function () {
                 var casted = +value;
                 if (parsed === casted && !isNaN(parsed) && !isNaN(casted)) {
                     valid = value.length === 5 ? true : false;
-                } else {
+                } else {                    
                     // Search string has both alpha and numbers.  
-                    if (/^(?=.*[a-zA-Z])(?=.*[0-9])/.test(value)) {
+                    if (/^(?=.*[a-zA-Z])(?=.*[0-9])/.test(value)) {                        
                         valid = false;
                     }
                 }                
