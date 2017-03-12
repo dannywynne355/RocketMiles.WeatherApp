@@ -1,5 +1,5 @@
 ﻿/* Create app */
-var weatherApp = angular.module('WeatherApp', ['ngRoute', 'ngCookies', 'ngAnimate', 'WeatherApp.config', 'WeatherApp.services', 'WeatherApp.controllers', 'WeatherApp.routes', 'ui.bootstrap'])
+var weatherApp = angular.module('WeatherApp', ['ngRoute', 'ngCookies', 'ngAnimate', 'WeatherApp.config', 'WeatherApp.services', 'WeatherApp.controllers', 'WeatherApp.routes', 'WeatherApp.directives', 'ui.bootstrap'])
     .config(appConfig)    
     .run(appRun)
 ;
@@ -8,7 +8,7 @@ var weatherApp = angular.module('WeatherApp', ['ngRoute', 'ngCookies', 'ngAnimat
 function appConfig($httpProvider) {
     // Overriding default to allow cross domain requests
     $httpProvider.defaults.useXDomain = true;
-    delete $httpProvider.defaults.headers.common['X-Requested-With'];
+    delete $httpProvider.defaults.headers.common['X-Requested-With'];    
 }
 
 /* Tasks to execute on injector creation */
