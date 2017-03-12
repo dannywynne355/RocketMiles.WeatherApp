@@ -16,6 +16,7 @@ angular.module('WeatherApp.config')
         userAdded: 'userAdded'
     })
     .constant('defaultLocale', {
+        localeType: 'default',
         city: 'Chicago',        
         countryCode: 'US',
         // latitude: '41.883030', Hiding lat & long because api was not returning full weather

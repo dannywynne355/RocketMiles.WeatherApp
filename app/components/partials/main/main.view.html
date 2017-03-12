@@ -2,14 +2,14 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-4 col-md-offset-3">
+        <div class="col-md-4 col-md-offset-3 text-center">
             <div ng-controller="SearchCtrl" id="search-wrapper">
                 <div ng-include="'/app/components/partials/search/search.view.html'" />
             </div>
             
         </div> <!-- .col-md-12 -->
     </div> <!-- .row -->    
-    <div ng-show="initialized && (weatherData == null || (weatherData.Locale == null && weatherData.CurrentWeather == null))" class="row">
+    <div ng-show="initialized && onLoadWeatherError && (weatherData == null || (weatherData.Locale == null && weatherData.CurrentWeather == null))" class="row">
         <div class="col-xs-12">
             <div class="alert alert-danger">
                 <div class="row">
@@ -133,7 +133,7 @@
                     <div class="alert alert-warning text-center">The forecast is currently unavailable.</div>
                 </div>
             </div>
-            <div ng-show="weatherData.DailyForecast != null" ng-repeat="forecast in weatherData.DailyForecast" class="row">
+            <div ng-show="weatherData.DailyForecast != null && weatherData.DailyForecast.length > 0" ng-repeat="forecast in weatherData.DailyForecast" class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default forecast-item">
                         <div class="panel-body">

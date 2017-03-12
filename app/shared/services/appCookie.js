@@ -23,7 +23,7 @@ function appCookie ($cookieStore, appCookieSettings) {
         this.locations = locations;
     };
 
-    this.save = function () {
+    this.save = function () {        
         $cookieStore.put(
             appCookieSettings.name,
             JSON.stringify(
@@ -41,8 +41,8 @@ function appCookie ($cookieStore, appCookieSettings) {
         $cookieStore.remove(appCookieSettings.name);
     };        
 
-    this.load = function () {            
-        var cookieSession = $cookieStore.get(appCookieSettings.name);
+    this.load = function () {        
+        var cookieSession = $cookieStore.get(appCookieSettings.name);        
         if (cookieSession) {
             var cookieData = JSON.parse(cookieSession);
             this.units = cookieData.units;
@@ -50,6 +50,9 @@ function appCookie ($cookieStore, appCookieSettings) {
                     
             // Need to save the cookie state for browser reloads
             this.save();
+        } else {
+            // Initialize values but do not save it yet
+            this.create("", []);
         }
     }
 

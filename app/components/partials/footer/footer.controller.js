@@ -19,6 +19,18 @@ function FooterController($scope, weatherUnits, broadcastEvents, geolocationFind
         $scope.$emit(broadcastEvents.setLocation.updateNotification, { locale: locale });
     };
 
+    $scope.$on(broadcastEvents.localeList.refreshNotification, function (event, args) {
+        console.log('Refresh location list');
+
+        getPreviousLocales();
+
+        // If a callback exists, fire it.  From intro screen, this will close current location modal.
+        if (args && args.callback) {
+            args.callback();
+        }
+    });
+    
+
     /* Put the current geolocation  in the dropdown */
     var getGeoCurrentLocale = function () {
         geolocationFinder.then(
@@ -34,8 +46,8 @@ function FooterController($scope, weatherUnits, broadcastEvents, geolocationFind
     };
     getGeoCurrentLocale();
 
-    /* Read previous locations from cookied */
-    var getPreviousLocale = function () {
+    /* Read previous locations from cookies */
+    var getPreviousLocales = function () {
         var localeItems = [];
 
         appCookie.load();
@@ -47,7 +59,9 @@ function FooterController($scope, weatherUnits, broadcastEvents, geolocationFind
             $scope.previousLocales = localeItems;
         }
     };
-    getPreviousLocale();
+
+    // Init
+    $scope.previousLocales = [];
 }
 
 FooterController.$inject = ['$scope', 'weatherUnits', 'broadcastEvents', 'geolocationFinder', 'appCookie'];

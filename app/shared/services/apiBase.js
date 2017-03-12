@@ -5,7 +5,7 @@
 angular.module('WeatherApp.services')
     .factory('apiBase', ApiBase);
 
-function ApiBase($http, apiCache, appEnvironment) {    
+function ApiBase($http, $q, apiCache, appEnvironment) {    
     var svc = function () {};
 
     /* Fetch api resource configuration and endpoints */
@@ -22,7 +22,9 @@ function ApiBase($http, apiCache, appEnvironment) {
     }
 
     /* Returns a promise for an api request */
-    svc.prototype.makeRequest = function (config) {        
+    svc.prototype.makeRequest = function (config) {
+        var deferred = $q.defer(); // Need deferred logic to handle case where there is a cache match.  $http already returns a promise
+
         // Run this first so that config properties are all fully set
         config = this.prepareConfig(config);
                 
@@ -129,4 +131,4 @@ function ApiBase($http, apiCache, appEnvironment) {
     return svc;
 }
 
-ApiBase.$inject = ['$http', 'apiCache', 'appEnvironment'];
+ApiBase.$inject = ['$http', '$q', 'apiCache', 'appEnvironment'];

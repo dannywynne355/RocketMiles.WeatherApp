@@ -1,9 +1,20 @@
 ﻿<div class="row">
-    <div class="col-md-12">
-        <div class="alert alert-danger">
-            <a ng-click="refresh()">Refresh</a>
-            <a ng-click="clearCookie()">Clear Cookie</a>
-            units: {{ cookieData.weatherUnits }} locations: {{ cookieData.locations }}
-        </div>        
+    <div class="col-md-4 col-md-offset-3">
+        <div class="text-center"><small><a ng-click="toggleAdmin()"><i class="fa fa-cog" aria-hidden="true"></i>&nbsp;{{ adminToggleState ? "Hide" : "Show"  }} Admin Panel</a></small></div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">        
+        <div ng-show="adminToggleState" class="alert alert-info">
+            <p><a ng-click="refresh()">Refresh Weather</a></p>
+            <p>
+                <a ng-click="clearCookie()">Clear Cookie</a>
+                <pre>
+            units: {{ cookieData.weatherUnits }}<br />
+ 
+            locations: {{ cookieData.locations }}
+        </pre>
+            </p>
+        </div>
     </div>
 </div>

@@ -2,9 +2,10 @@
 
 WeatherAppControllers.controller('MainController', WeatherAppMain);
 
-function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, broadcastEvents, weatherData) {
+function WeatherAppMain($scope, $uibModal, Locale, localeType, defaultLocale, appCookie, broadcastEvents, weatherData) {
     // Using this to toggle display of error conditions on load up.  Want to hide error screens when no data is available
     $scope.initialized = false;        
+    $scope.onLoadWeatherError = false;
 
     $scope.$on(broadcastEvents.setLocation.useDefaultLocaleNotification, function (event, args) {
         console.log('Use default');
@@ -12,7 +13,7 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, bro
         // Use the default location            
         var getLocale = function () {
             var locale = new Locale(defaultLocale);
-            locale.isDefault = true;
+            locale.localeType = localeType.default;
             return locale;
         };
         $scope.selectedLocale = getLocale();                
@@ -25,6 +26,7 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, bro
 
     $scope.$on(broadcastEvents.setLocation.updateNotification, function (event, args) {
         console.log('update locale');
+        console.log(args);
 
         // Check for unexpected case where no locale was provided            
         if (!args.locale) {
@@ -50,26 +52,50 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, bro
             args.callback();
         }
     });
-
+    
     // Gets the weather report (current, forecast) for the variable $scope.selectedLocale 
     // NOTE: stored as function so that I can call it elsewhere to do refreshes
     var getSelectedLocaleWeatherReport = function () {        
         if ($scope.selectedLocale) {
             console.log('update to locale');
-            
+            $scope.onLoadWeatherError = false; // reset
             weatherData
                 .getWeather($scope.selectedLocale)
                 .then(
                     function (data) {
                         console.log('weather report returned');
                         console.log(data);
-                        $scope.weatherData = data;
-                        $scope.initialized = true;
-                    },
-                    function (error) {                        
-                        $scope.initialized = true;
+                        if (data) {
+                            $scope.weatherData = data;                            
+                            return data.Locale;
+                        } else {                            
+                            return false;
+                        }
+                    }, function (data) {
+                        $scope.onLoadWeatherError = true;
+                        return false;
                     }
-                );            
+                )
+                .then(
+                    function (locale) {
+                        if (locale) {
+                            console.log('1');
+                            console.log(locale);
+                            locale.save();
+                            return locale;
+                        } else {
+                            return false;
+                        }
+                    }
+                )
+                .then(function (locale) {
+                    if (locale) {
+                        $scope.$broadcast(broadcastEvents.localeList.refreshNotification, { locale: locale });
+                    }
+
+                    $scope.initialized = true;
+                })
+            ;
         }
     }
 
@@ -93,9 +119,9 @@ function WeatherAppMain($scope, $uibModal, Locale, defaultLocale, appCookie, bro
         var cb = function () {
             $scope.initialized = true;
         };
-
+        
         // Get first one - locations being appended to front, so this will be last stored one
         $scope.$broadcast(broadcastEvents.setLocation.updateNotification, { locale: appCookie.locations[0], callback: cb });
     }
 }
-WeatherAppMain.$inject = ['$scope', '$uibModal', 'Locale', 'defaultLocale', 'appCookie', 'broadcastEvents', 'weatherData'];
+WeatherAppMain.$inject = ['$scope', '$uibModal', 'Locale', 'localeType', 'defaultLocale', 'appCookie', 'broadcastEvents', 'weatherData'];

@@ -2,12 +2,19 @@
 
 WeatherAppControllers.controller('AdminCtrl', AdminController);
 
-function AdminController($scope, broadcastEvents, appCookie) {
+function AdminController($scope, broadcastEvents, appCookie, $cookieStore, appCookieSettings) {
 
-    var cookie = appCookie.load();
+    appCookie.load();
+    
+    // Add toggle state to show/hide this view
+    $scope.adminToggleState = false;
+    $scope.toggleAdmin = function () {        
+        $scope.adminToggleState= !$scope.adminToggleState;        
+    };
+
     $scope.cookieData = {
-        weatherUnits: cookie ? cookie.units : "undefined",
-        locations: cookie ? cookie.locations : []
+        weatherUnits: appCookie ? appCookie.units : "undefined",
+        locations: appCookie ? appCookie.locations : []
     };
 
     $scope.refresh = function () {
@@ -18,6 +25,15 @@ function AdminController($scope, broadcastEvents, appCookie) {
     $scope.clearCookie = function () {        
         appCookie.destroy();
     };
+
+    $scope.$watch(function () { return $cookieStore.get(appCookieSettings.name); }, function (newValue) {        
+        appCookie.load();
+
+        $scope.cookieData = {
+            weatherUnits: appCookie ? appCookie.units : "undefined",
+            locations: appCookie ? appCookie.locations : []
+        };
+    });
 }
 
-AdminController.$inject = ['$scope', 'broadcastEvents', 'appCookie'];
+AdminController.$inject = ['$scope', 'broadcastEvents', 'appCookie', '$cookieStore', 'appCookieSettings' ];

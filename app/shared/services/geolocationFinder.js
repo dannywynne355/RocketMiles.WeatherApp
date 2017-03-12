@@ -5,9 +5,7 @@
 angular.module('WeatherApp.services')
     .factory('geolocationFinder', geolocationFinder);
 
-geolocationFinder.$inject = ['$q', '$http', 'Locale'];
-
-function geolocationFinder($q, $http, Locale) {
+function geolocationFinder($q, $http, Locale, localeType) {
     var deferred = $q.defer();
 
     var currentLocation = new Locale();
@@ -15,6 +13,7 @@ function geolocationFinder($q, $http, Locale) {
     $http.get('http://ip-api.com/json')
         .then(function (response) {
             var data = response.data;
+            data.localeType = localeType.geolocation;
             // Copying over fields to standard ones for state
             data.state = data.region;
             data.stateName = data.regionName;
@@ -30,3 +29,5 @@ function geolocationFinder($q, $http, Locale) {
 
     return deferred.promise;
 }
+
+geolocationFinder.$inject = ['$q', '$http', 'Locale', 'localeType'];

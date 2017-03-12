@@ -5,7 +5,7 @@
 angular.module('WeatherApp.services')
     .factory('weatherData', WeatherData);
 
-function WeatherData(openWeatherMapApi, openWeatherMapApiSettings, openWeatherMapJsonParser, Locale, LocaleWeather, WeatherState) {
+function WeatherData(openWeatherMapApi, openWeatherMapApiSettings, openWeatherMapJsonParser, Locale, localeType, LocaleWeather, WeatherState) {
     var svc = {};
 
     /* 
@@ -17,7 +17,7 @@ function WeatherData(openWeatherMapApi, openWeatherMapApiSettings, openWeatherMa
         if (locale == undefined) {
             return false;
         }
-
+        
         if (locale.latitude && locale.longitude) {
             return "byGeolocation";
         } else if (locale.cityId) {
@@ -41,7 +41,8 @@ function WeatherData(openWeatherMapApi, openWeatherMapApiSettings, openWeatherMa
         var api = new openWeatherMapApi();
         var queryType = this.getSearchType(locale);
         if (queryType) {
-            var config = api.resource().endpoints.currentWeather[queryType];            
+            var config = api.resource().endpoints.currentWeather[queryType];
+            config.locale = locale;
             return api
                 .makeRequest(config)
                 .then(
@@ -77,6 +78,7 @@ function WeatherData(openWeatherMapApi, openWeatherMapApiSettings, openWeatherMa
         var queryType = this.getSearchType(locale);
         if (queryType) {
             var config = api.resource().endpoints.forecast[queryType];
+            config.locale = locale;
             return api
                 .makeRequest(config)
                 .then(
@@ -126,6 +128,7 @@ function WeatherData(openWeatherMapApi, openWeatherMapApiSettings, openWeatherMa
         var queryType = this.getSearchType(locale);
         if (queryType) {
             var config = api.resource().endpoints.extendedForecast[queryType];
+            config.locale = locale;
             return api
                 .makeRequest(config)
                 .then(
@@ -182,9 +185,10 @@ function WeatherData(openWeatherMapApi, openWeatherMapApiSettings, openWeatherMa
                             function (weather) {
                                 if (weather) {
                                     console.log('checkign city');
-                                    console.log(weather);
+                                    console.log(locale);
                                     
                                     var returnedLocale = new Locale({
+                                        localeType: locale.localeType,
                                         city: weather.city.name,
                                         cityId: weather.city.id,
                                         zip: weather.city.zip ? weather.city.zip : false,
@@ -266,4 +270,4 @@ function WeatherData(openWeatherMapApi, openWeatherMapApiSettings, openWeatherMa
     return svc;
 }
 
-WeatherData.$inject = ['openWeatherMapApi', 'openWeatherMapApiSettings', 'openWeatherMapJsonParser', 'Locale', 'LocaleWeather', 'WeatherState'];
+WeatherData.$inject = ['openWeatherMapApi', 'openWeatherMapApiSettings', 'openWeatherMapJsonParser', 'Locale', 'localeType', 'LocaleWeather', 'WeatherState'];

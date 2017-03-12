@@ -9,10 +9,10 @@ weatherUnits.$inject = ['appCookie'];
 function weatherUnits(appCookie) {
     var units = 'imperial';
     // Check cookie to see if a value is there
-    var cookie = appCookie.load();
-    if (cookie != undefined
-        && cookie.units) {
-        units = cookie.units;
+    appCookie.load();
+    if (appCookie != undefined
+        && appCookie.units) {
+        units = appCookie.units;
     }
     
     this.get = function () {
@@ -22,11 +22,14 @@ function weatherUnits(appCookie) {
     this.set = function (u) {
         units = u;
 
-        // Update cookie
-        var cookie = appCookie.load();
-        if (cookie == undefined) {
+        // Update cookie        
+        appCookie.load();
+        if (appCookie == undefined) {
             appCookie.create(u, []);
+        } else {
+            appCookie.units = u;
         }
+        console.log('weather units saving locale');
         appCookie.save();        
     };
 

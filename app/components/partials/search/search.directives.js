@@ -36,8 +36,7 @@ WeatherAppDirectives.directive('isValidSearchInput', function () {
                     if (/^(?=.*[a-zA-Z])(?=.*[0-9])/.test(value)) {
                         valid = false;
                     }
-                }
-                console.log(valid);
+                }                
                 ctrl.$setValidity('isValidSearchInput', valid);
                 return value;
             };
