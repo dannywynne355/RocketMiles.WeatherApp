@@ -3,66 +3,65 @@ button.btn-show-locations[aria-expanded="true"]{
   background-color: #990033;   
 }
 
+/* Shrink forecast items so they stack nicely vertically */
 .forecast-item div.panel-body {
     padding-top: 8px;
-    padding-bottom: 0;*
+    padding-bottom: 0;
 }
+
+/* Moving forecast temp relative to the image */
 .forecast-temperature {
     top: 10px;
     position: relative;
 }
 
-.forecast-icon {
-    position: relative;
-    top: -5px;
-}
-
+/* Overrides for current conditions area */
 .current-conditions {
     padding-top: 24px;
     padding-bottom: 24px;
 }
+    .current-conditions h3 {
+        margin-top: 0; /* Remove top spacing to anchor it closer to top */
+    }
 
-.current-conditions h3 {
-    margin-top: 0;
-}
+    .current-conditions .temperature {
+        font-size: 24px;
+    }
 
-.current-conditions .temperature {
-    font-size: 24px;
-}
+    .current-conditions .description {
 
-.current-conditions .description {
+    }
 
-}
+    .current-conditions .lastUpdated {
+        font-size: 10px; /* timestamp can be smaller font */
+    }
 
-.current-conditions .lastUpdated {
-    font-size: 10px;
-}
-
+/* For immediate forecast, modify horizontal spacing so items sit nicely */
 .next-12-item {
     padding-left: 5px;
     padding-right: 5px;
 }
+    .next-12-item h6 {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    .next-12-item .panel-body {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
 
-.next-12-item h6 {
-    font-weight: bold;
-    text-transform: uppercase;
-}
-.next-12-item .panel-body {
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
+/* Put some spacing above and below search box */
 #search-wrapper {
     margin-top: 15px;
     margin-bottom: 15px;
 }
 
 @media all and (max-width: 768px) {
+    /* For small device display, shrink the font size and panel so that temp fits nicely */
     .next-12-hours .panel-body {
         padding-left: 1px;
         padding-right: 1px;
     }
-
     .next-12-hours .panel-body .temperature {
         font-size: 12px;
     }
