@@ -125,7 +125,7 @@ function WeatherAppMain($scope, $uibModal, Locale, localeType, defaultLocale, ap
         // Launch popup for current location
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
-            templateUrl: '/app/components/modals/current-location/current-location.view.html',
+            templateUrl: 'app/components/modals/current-location/current-location.view.html',
             controller: 'CurrentLocationCtrl',
             scope: $scope
         });
