@@ -30,8 +30,7 @@ function localeService(localeType, appCookie) {
     Locale.prototype.save = function () {        
         if (this.localeType == localeType.userAdded) {
             appCookie.load();            
-            if (this.cityId) {
-                console.log('check cityid');
+            if (this.cityId) {                
                 // awesome - we have a city id and we can just match on that                
                 for (i=0; i < appCookie.locations.length; i++) {
                     if (appCookie.locations[i].cityId == this.cityId) {
@@ -39,8 +38,7 @@ function localeService(localeType, appCookie) {
                         return ;
                     }
                 }
-            } else {
-                console.log('check city and zip');
+            } else {                
                 // going to assume that checking city name & zip is sufficient
                 for (i = 0; i < appCookie.locations.length; i++) {
                     if (appCookie.locations[i].city == this.city
@@ -53,8 +51,7 @@ function localeService(localeType, appCookie) {
 
             // If we're here, then neither location checker found the city.  Add it
             // to the front of the array so that we known the first one is always
-            // the most recently viewed.
-            console.log('Locale saving locale');            
+            // the most recently viewed.                       
             appCookie.locations.unshift(angular.copy(this));
             appCookie.save();
         }        

@@ -6,15 +6,11 @@ angular.module('WeatherApp.services')
 
 function ownJsonParser(wind, weatherUnits, WeatherState) {
     return {
-        getOffset: function (json, offset) {
-            // console.log('getOffset');
-            // console.log(offset);
+        getOffset: function (json, offset) {            
             var currentParentNode = json;
             angular.forEach(offset, function (v) {
                 currentParentNode = currentParentNode[v];
-            });
-            // console.log(currentParentNode);
-            // console.log('done with get offset');
+            });            
             return currentParentNode;
             
         },

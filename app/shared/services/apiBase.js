@@ -36,13 +36,13 @@ function ApiBase($http, $q, apiCache, appEnvironment) {
             var cacheId = config.url;
             var cachedData = apiCache.cache.get(cacheId);
             if (cachedData) {
-                console.log('retrieving cached value for ' + cacheId);
+                // console.log('retrieving cached value for ' + cacheId);
                 return $q.when(cachedData);
             }
-        }
-        console.log(config.url);
-        // Execute request and store it
+    }
 
+        // console.log(config.url);
+        // Execute request and store it
         $http(config).then(
             function (response) {
                 // Cache it only if there's a value

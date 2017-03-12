@@ -20,7 +20,7 @@ function FooterController($scope, weatherUnits, broadcastEvents, geolocationFind
     };
 
     $scope.$on(broadcastEvents.localeList.refreshNotification, function (event, args) {
-        console.log('Refresh location list');
+        // console.log('Refresh location list');
 
         getPreviousLocales();
 
